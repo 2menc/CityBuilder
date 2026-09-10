@@ -7,12 +7,12 @@ import com.github.Citybuilder.utils.math.*;
 
 public class WorldMap {
 
-    private final int width;
-    private final int height;
+    private final long width;
+    private final long height;
 
     private final List<List<Tile>> mapGrid;
 
-    public WorldMap(int width, int height) {
+    public WorldMap(long width, long height) {
         this.width = width;
         this.height = height;
 
@@ -65,11 +65,11 @@ public class WorldMap {
         this.mapGrid.get(x).set(y, tileToSet);
     }
 
-    public int getWidth() {
+    public long getWidth() {
         return this.width;
     }
 
-    public int getHeight() {
+    public long getHeight() {
         return this.height;
     }
 

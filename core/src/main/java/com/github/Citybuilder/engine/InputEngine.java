@@ -16,7 +16,7 @@ public class InputEngine extends InputAdapter{
 
     public void handleInput() {
 
-        float cameraSpeed = 400f;
+        float cameraSpeed = 525f;
         float deltaTime = Gdx.graphics.getDeltaTime();
 
         if(Gdx.input.isKeyPressed(Input.Keys.W)) {
@@ -41,7 +41,7 @@ public class InputEngine extends InputAdapter{
         float zoomSpeed = 0.1f;
 
         camera.zoom += amountY * zoomSpeed;
-        camera.zoom = MathUtils.clamp(camera.zoom, 0.4f, 3.0f);
+        camera.zoom = MathUtils.clamp(camera.zoom, 0.4f, 8.0f);
         camera.update();
 
         return true;

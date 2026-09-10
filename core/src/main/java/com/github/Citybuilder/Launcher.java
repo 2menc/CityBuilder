@@ -13,8 +13,11 @@ import com.github.Citybuilder.engine.*;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Launcher extends ApplicationAdapter {
 
-    private final static long WORLD_WIDTH = 800;
-    private final static long WORLD_HEIGHT = 600;
+    private final static long WORLD_WIDTH = 500;
+    private final static long WORLD_HEIGHT = 500;
+
+    private final static long CAMERA_WIDTH = 800;
+    private final static long CAMERA_HEIGHT = 600;
 
     private OrthographicCamera camera;
     private ShapeRenderer shapeRenderer;
@@ -26,17 +29,14 @@ public class Launcher extends ApplicationAdapter {
     @Override
     public void create() {
         this.camera = new OrthographicCamera();
-        camera.setToOrtho(false, WORLD_WIDTH, WORLD_HEIGHT); 
+        camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT); 
 
-        this.viewPort = new FillViewport(WORLD_WIDTH, WORLD_HEIGHT);
+        this.viewPort = new FillViewport(CAMERA_WIDTH, CAMERA_HEIGHT);
 
         this.inputEngine = new InputEngine(camera);
         
         this.shapeRenderer = new ShapeRenderer();
-        this.map = new WorldMap(50, 50);
-
-        //DEBUG
-        map.setTileType(10, 10, TileType.ROAD);
+        this.map = new WorldMap(WORLD_WIDTH, WORLD_HEIGHT);
 
         this.mapRenderer = new MapRenderer(map);
 
