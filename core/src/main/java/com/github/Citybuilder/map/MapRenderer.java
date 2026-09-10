@@ -27,10 +27,16 @@ public class MapRenderer {
 
                 switch (type) {
                     case TileType.GRASS:
-                        shapeRenderer.setColor(Color.GREEN);
+                        shapeRenderer.setColor(Color.OLIVE);
                         break;
                     case TileType.ROAD:
                         shapeRenderer.setColor(Color.GRAY);
+                        break;
+                    case TileType.DIRT:
+                        shapeRenderer.setColor(Color.BROWN);
+                        break;
+                    case TileType.WATER:
+                        shapeRenderer.setColor(Color.CYAN);
                         break;
                     default:
                         shapeRenderer.setColor(Color.PURPLE);

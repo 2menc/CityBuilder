@@ -3,6 +3,8 @@ package com.github.Citybuilder.map;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.Citybuilder.utils.math.*;
+
 public class WorldMap {
 
     private final int width;
@@ -14,12 +16,20 @@ public class WorldMap {
         this.width = width;
         this.height = height;
 
+        double scale = 0.03;
+
+        final NoiseGenerator elevationNoise = new NoiseGenerator();
+
         this.mapGrid = new ArrayList<>();
 
         for (int i = 0; i < width; i++) {
             final List<Tile> row = new ArrayList<>();
             for (int j = 0; j < height; j++) {
-                row.add(new Tile(i, j, TileType.GRASS));
+
+                double elevation = elevationNoise.getNoise(i, j, scale, 4);
+                double riverVal = Math.abs(elevationNoise.getNoise(i, j, 0.04, -2) - 0.5);
+                
+                row.add(new Tile(i, j, TileType.getTileTypeFromFloat(elevation, riverVal)));
             }
             this.mapGrid.add(row);
         }
@@ -76,4 +86,5 @@ public class WorldMap {
         System.out.println("\n");
        }
     }
+    
 }
