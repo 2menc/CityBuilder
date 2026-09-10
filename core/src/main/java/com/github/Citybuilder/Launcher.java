@@ -1,29 +1,36 @@
 package com.github.Citybuilder;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.Citybuilder.map.*;
+import com.github.Citybuilder.engine.*;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Launcher extends ApplicationAdapter {
+
+    private final static long WORLD_WIDTH = 800;
+    private final static long WORLD_HEIGHT = 600;
 
     private OrthographicCamera camera;
     private ShapeRenderer shapeRenderer;
     private WorldMap map;
     private MapRenderer mapRenderer;
     private Viewport viewPort;
+    private InputEngine inputEngine; 
 
     @Override
     public void create() {
         this.camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 600); 
+        camera.setToOrtho(false, WORLD_WIDTH, WORLD_HEIGHT); 
 
-        this.viewPort = new FitViewport(800, 600);
+        this.viewPort = new FillViewport(WORLD_WIDTH, WORLD_HEIGHT);
 
+        this.inputEngine = new InputEngine(camera);
         
         this.shapeRenderer = new ShapeRenderer();
         this.map = new WorldMap(50, 50);
@@ -33,6 +40,7 @@ public class Launcher extends ApplicationAdapter {
 
         this.mapRenderer = new MapRenderer(map);
 
+        Gdx.input.setInputProcessor(inputEngine);
     }
 
     @Override
@@ -40,6 +48,8 @@ public class Launcher extends ApplicationAdapter {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
 
         camera.update();
+
+        inputEngine.handleInput();
 
         mapRenderer.render(camera, shapeRenderer);
     }
