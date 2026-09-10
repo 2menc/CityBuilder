@@ -15,7 +15,7 @@ public class MapRenderer {
         this.map = map;
     }
 
-    public void render(OrthographicCamera camera, ShapeRenderer shapeRenderer) {
+    public void render(OrthographicCamera camera, ShapeRenderer shapeRenderer, int hoverX, int hoverY) {
         
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -23,28 +23,28 @@ public class MapRenderer {
         for (int i = 0; i < this.map.getWidth(); i++) {
             for (int j = 0; j < this.map.getHeight(); j++) {
                 final var tile = map.getTile(i, j);
-                final var type = tile.getType();
 
-                switch (type) {
-                    case TileType.GRASS:
-                        shapeRenderer.setColor(Color.OLIVE);
-                        break;
-                    case TileType.ROAD:
-                        shapeRenderer.setColor(Color.GRAY);
-                        break;
-                    case TileType.DIRT:
-                        shapeRenderer.setColor(Color.BROWN);
-                        break;
-                    case TileType.WATER:
-                        shapeRenderer.setColor(Color.CYAN);
-                        break;
-                    default:
-                        shapeRenderer.setColor(Color.PURPLE);
+                switch (tile.getType()) {
+                    case GRASS -> shapeRenderer.setColor(Color.OLIVE);
+                    case DIRT  -> shapeRenderer.setColor(Color.BROWN);
+                    case ROAD  -> shapeRenderer.setColor(Color.GRAY);
+                    case WATER -> shapeRenderer.setColor(Color.CYAN);                    
+                    
+                    default -> shapeRenderer.setColor(Color.PURPLE);
                 }
 
                 shapeRenderer.rect(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
         }
         shapeRenderer.end();
+
+        if(map.isValid(hoverX, hoverY)) {
+
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.TAN);
+            
+            shapeRenderer.rect(hoverX * TILE_SIZE, hoverY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+            shapeRenderer.end();
+        }
     }
 }

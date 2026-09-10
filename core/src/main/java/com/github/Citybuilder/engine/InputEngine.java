@@ -5,13 +5,29 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.Citybuilder.map.*;
 
 public class InputEngine extends InputAdapter{
 
-    private final OrthographicCamera camera;
+    private static final int TILE_SIZE = 32;
 
-    public InputEngine(OrthographicCamera camera) {
+    private final OrthographicCamera camera;
+    private final WorldMap worldMap;
+    private final Viewport viewport; 
+
+    private final Vector3 mouseWorldPos = new Vector3();
+
+    //saves hovering Tiles
+    private int hoverX = -1;
+    private int hoverY = -1;
+    
+
+    public InputEngine(OrthographicCamera camera, WorldMap worldMap, Viewport viewport) {
         this.camera = camera;
+        this.worldMap = worldMap;
+        this.viewport = viewport;
     }
 
     public void handleInput() {
@@ -33,6 +49,12 @@ public class InputEngine extends InputAdapter{
         }
         
         camera.update();
+
+        mouseWorldPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        viewport.unproject(mouseWorldPos);
+
+        hoverX = (int) Math.floor(mouseWorldPos.x / TILE_SIZE);
+        hoverY = (int) Math.floor(mouseWorldPos.y / TILE_SIZE);
     }
 
     @Override
@@ -47,4 +69,7 @@ public class InputEngine extends InputAdapter{
         return true;
 
     }
+
+    public int getHoverX() { return hoverX; }
+    public int getHoverY() { return hoverY; }
 }

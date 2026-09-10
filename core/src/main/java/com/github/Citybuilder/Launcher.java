@@ -29,17 +29,14 @@ public class Launcher extends ApplicationAdapter {
     @Override
     public void create() {
         this.camera = new OrthographicCamera();
-        camera.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT); 
+        this.viewPort = new FillViewport(CAMERA_WIDTH, CAMERA_HEIGHT, camera);
 
-        this.viewPort = new FillViewport(CAMERA_WIDTH, CAMERA_HEIGHT);
-
-        this.inputEngine = new InputEngine(camera);
-        
         this.shapeRenderer = new ShapeRenderer();
+
         this.map = new WorldMap(WORLD_WIDTH, WORLD_HEIGHT);
 
         this.mapRenderer = new MapRenderer(map);
-
+        this.inputEngine = new InputEngine(camera, map, viewPort);
         Gdx.input.setInputProcessor(inputEngine);
     }
 
@@ -47,11 +44,11 @@ public class Launcher extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
 
-        camera.update();
-
         inputEngine.handleInput();
 
-        mapRenderer.render(camera, shapeRenderer);
+        viewPort.apply();
+
+        mapRenderer.render(camera, shapeRenderer, inputEngine.getHoverX(), inputEngine.getHoverY());
     }
 
     @Override
