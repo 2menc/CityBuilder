@@ -27,7 +27,7 @@ public class BuildManager {
         }
     }
 
-    public void selectTileType(TileType tile) {
+    public void setSelectedTileType(TileType tile) {
         this.selectedTileType = tile;
     }
 }

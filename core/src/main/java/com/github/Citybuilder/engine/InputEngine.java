@@ -55,12 +55,24 @@ public class InputEngine extends InputAdapter{
 
         hoverX = (int) Math.floor(mouseWorldPos.x / TILE_SIZE);
         hoverY = (int) Math.floor(mouseWorldPos.y / TILE_SIZE);
-
-        if(Gdx.input.isTouched()) {
-            buildManager.buildAt(hoverX, hoverY); //builds the selected tile
-        }
     }
 
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (button == Input.Buttons.LEFT) {
+            buildManager.buildAt(hoverX, hoverY);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        // places selected tile dragging
+        buildManager.buildAt(hoverX, hoverY);
+        return true;
+    }
+    
     @Override
     public boolean scrolled(float amountX, float amountY) {
 
