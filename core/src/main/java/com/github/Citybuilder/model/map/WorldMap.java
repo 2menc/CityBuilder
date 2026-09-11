@@ -100,4 +100,18 @@ public class WorldMap {
        }
     }
     
+    public long getNumberOfTileTypes(TileType tile) {
+
+        long count = 0;
+
+        for(var list: this.mapGrid) {
+            for(var t: list) {
+                if(t.getType().equals(tile)) {
+                    count++;
+                }
+            }
+        }
+        
+        return count;
+    }
 }

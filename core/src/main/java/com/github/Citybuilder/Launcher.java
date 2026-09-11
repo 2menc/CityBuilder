@@ -46,13 +46,13 @@ public class Launcher extends ApplicationAdapter {
         // rules loading
         RuleLoader.loadRules();
 
-        //tickables
-        this.updateEngine = new UpdateEngine();
-        this.financialService = new FinancialService(RuleLoader.RULES.getStartingBalance());
-        this.updateEngine.register(financialService);
-
         // map
         this.map = new WorldMap(WORLD_WIDTH, WORLD_HEIGHT);
+
+        //tickables
+        this.updateEngine = new UpdateEngine();
+        this.financialService = new FinancialService(RuleLoader.RULES.getStartingBalance(), map);
+        this.updateEngine.register(financialService);
 
         // renderer
         this.shapeRenderer = new ShapeRenderer();
