@@ -3,6 +3,7 @@ package com.github.citybuilder.model.map;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.citybuilder.rules.ConstructionRules;
 import com.github.citybuilder.utils.math.*;
 
 public class WorldMap {
@@ -56,13 +57,25 @@ public class WorldMap {
     }
 
     /**
+     * gets the Tile in that position
+     * @param position .
+     * @return the Tile
+     */
+    public TileType getTileType(int x, int y) {
+        return this.mapGrid.get(x).get(y).getType();
+    }
+
+    /**
      * changes a tile type
      * @param position .
      * @param tileType .
      */
     public void setTileType(int x, int y, TileType tileType) {
-        final var tileToSet = new Tile(x, y, tileType);
-        this.mapGrid.get(x).set(y, tileToSet);
+
+        if(ConstructionRules.canBuild(this.getTileType(x, y), tileType)) {
+            final var tileToSet = new Tile(x, y, tileType);
+            this.mapGrid.get(x).set(y, tileToSet);
+        }
     }
 
     public long getWidth() {

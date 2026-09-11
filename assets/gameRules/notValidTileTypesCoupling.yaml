@@ -1,0 +1,13 @@
+#SYNTAX:
+# alreadyPresentTile:
+#   -tiles that you can not build on top of the present one
+
+  ROAD:
+    - WATER 
+  DIRT: []  #no restrictions
+  WATER:
+    - GRASS
+    - DIRT
+    - ROAD
+  GRASS:
+    - WATER
