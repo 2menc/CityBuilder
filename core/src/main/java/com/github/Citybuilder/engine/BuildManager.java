@@ -7,8 +7,12 @@ public class BuildManager {
 
     private final WorldMap map;
 
+    private TileType selectedTileType;
+
     public BuildManager(WorldMap map) {
         this.map = map;
+
+        this.selectedTileType = TileType.ROAD; //default
     }
 
     /**
@@ -17,9 +21,13 @@ public class BuildManager {
      * @param y .
      * @param tile .
      */
-    public void buildAt(int x, int y, TileType tile) {
+    public void buildAt(int x, int y) {
         if(map.isValid(x, y)) {
-            map.setTileType(x, y, tile);
+            map.setTileType(x, y, this.selectedTileType);
         }
+    }
+
+    public void selectTileType(TileType tile) {
+        this.selectedTileType = tile;
     }
 }
