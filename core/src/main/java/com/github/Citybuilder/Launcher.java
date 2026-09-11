@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.citybuilder.model.map.*;
+import com.github.citybuilder.utils.RuleLoader;
 import com.github.citybuilder.view.*;
 import com.github.citybuilder.view.hud.HUDoverlay;
 import com.github.citybuilder.engine.*;
@@ -37,6 +38,8 @@ public class Launcher extends ApplicationAdapter {
     
     @Override
     public void create() {
+
+        RuleLoader.loadRules();
 
         this.updateEngine = new UpdateEngine();
 
