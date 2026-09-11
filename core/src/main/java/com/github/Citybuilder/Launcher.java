@@ -36,7 +36,7 @@ public class Launcher extends ApplicationAdapter {
         this.map = new WorldMap(WORLD_WIDTH, WORLD_HEIGHT);
 
         this.mapRenderer = new MapRenderer(map);
-        this.inputEngine = new InputEngine(camera, map, viewPort);
+        this.inputEngine = new InputEngine(camera, viewPort);
         Gdx.input.setInputProcessor(inputEngine);
     }
 

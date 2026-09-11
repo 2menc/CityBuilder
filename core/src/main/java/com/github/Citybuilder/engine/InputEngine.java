@@ -7,15 +7,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.Citybuilder.map.*;
 
 public class InputEngine extends InputAdapter{
 
     private static final int TILE_SIZE = 32;
 
     private final OrthographicCamera camera;
-    private final WorldMap worldMap;
     private final Viewport viewport; 
+    private final BuildManager buildManager;
 
     private final Vector3 mouseWorldPos = new Vector3();
 
@@ -24,15 +23,16 @@ public class InputEngine extends InputAdapter{
     private int hoverY = -1;
     
 
-    public InputEngine(OrthographicCamera camera, WorldMap worldMap, Viewport viewport) {
+    public InputEngine(OrthographicCamera camera, Viewport viewport) {
         this.camera = camera;
-        this.worldMap = worldMap;
         this.viewport = viewport;
+
+        this.buildManager = new BuildManager();
     }
 
     public void handleInput() {
 
-        float cameraSpeed = 525f;
+        float cameraSpeed = 750f;
         float deltaTime = Gdx.graphics.getDeltaTime();
 
         if(Gdx.input.isKeyPressed(Input.Keys.W)) {
@@ -55,6 +55,10 @@ public class InputEngine extends InputAdapter{
 
         hoverX = (int) Math.floor(mouseWorldPos.x / TILE_SIZE);
         hoverY = (int) Math.floor(mouseWorldPos.y / TILE_SIZE);
+
+        if(Gdx.input.isTouched()) {
+            buildManager.buildAt(hoverX, hoverY);
+        }
     }
 
     @Override
@@ -63,7 +67,7 @@ public class InputEngine extends InputAdapter{
         float zoomSpeed = 0.1f;
 
         camera.zoom += amountY * zoomSpeed;
-        camera.zoom = MathUtils.clamp(camera.zoom, 0.4f, 8.0f);
+        camera.zoom = MathUtils.clamp(camera.zoom, 0.4f, 14.0f);
         camera.update();
 
         return true;
