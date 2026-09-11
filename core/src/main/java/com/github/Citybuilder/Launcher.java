@@ -31,11 +31,15 @@ public class Launcher extends ApplicationAdapter {
     private BuildManager buildManager;
     private HUDoverlay hudOverlay;
     private InputMultiplexer multiplexer;
+    private UpdateEngine updateEngine;
 
     public Launcher() {}
     
     @Override
     public void create() {
+
+        this.updateEngine = new UpdateEngine();
+
         this.camera = new OrthographicCamera();
         this.viewPort = new FillViewport(CAMERA_WIDTH, CAMERA_HEIGHT, camera);
 
@@ -59,6 +63,10 @@ public class Launcher extends ApplicationAdapter {
 
     @Override
     public void render() {
+
+        float deltaTime = Gdx.graphics.getDeltaTime();
+        this.updateEngine.update(deltaTime);
+
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
 
         inputEngine.handleInput();
@@ -79,7 +87,4 @@ public class Launcher extends ApplicationAdapter {
         shapeRenderer.dispose();
     }
 
-    public static void main(String[] args) {
-        
-    }
 }
