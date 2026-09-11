@@ -2,7 +2,8 @@ package com.github.citybuilder.utils;
 
 public enum Paths {
 
-    GAMERULES_PATH("gameRules/notValidTileTypesCoupling.yaml");
+    BUILDING_RULES("gameRules/notValidTileTypesCoupling.yaml"),
+    GAME_RULES("gameRules/gameRules.yaml");
 
     final String path;
 
