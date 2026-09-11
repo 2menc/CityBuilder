@@ -9,7 +9,7 @@ import org.yaml.snakeyaml.Yaml;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.github.citybuilder.model.map.TileType;
-import com.github.citybuilder.utils.rules.GameRules;
+import com.github.citybuilder.rules.GameRules;
 
 /**
  * gets rules from the rules file 

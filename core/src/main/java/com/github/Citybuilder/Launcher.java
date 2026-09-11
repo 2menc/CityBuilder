@@ -13,6 +13,7 @@ import com.github.citybuilder.utils.RuleLoader;
 import com.github.citybuilder.view.*;
 import com.github.citybuilder.view.hud.HUDoverlay;
 import com.github.citybuilder.engine.*;
+import com.github.citybuilder.engine.services.FinancialService;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Launcher extends ApplicationAdapter {
@@ -33,7 +34,8 @@ public class Launcher extends ApplicationAdapter {
     private HUDoverlay hudOverlay;
     private InputMultiplexer multiplexer;
     private UpdateEngine updateEngine;
-
+    private  FinancialService financialService;
+    
     public Launcher() {}
     
     @Override
@@ -41,7 +43,10 @@ public class Launcher extends ApplicationAdapter {
 
         RuleLoader.loadRules();
 
+        //tickables
         this.updateEngine = new UpdateEngine();
+        this.financialService = new FinancialService(RuleLoader.RULES.getStartingBalance());
+        this.updateEngine.register(financialService);
 
         this.camera = new OrthographicCamera();
         this.viewPort = new FillViewport(CAMERA_WIDTH, CAMERA_HEIGHT, camera);
@@ -50,7 +55,7 @@ public class Launcher extends ApplicationAdapter {
 
         this.map = new WorldMap(WORLD_WIDTH, WORLD_HEIGHT);
 
-        this.buildManager = new BuildManager(map);
+        this.buildManager = new BuildManager(map, financialService);
 
         this.mapRenderer = new MapRenderer(map);
         this.inputEngine = new InputEngine(camera, viewPort, buildManager);
@@ -73,6 +78,8 @@ public class Launcher extends ApplicationAdapter {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
 
         inputEngine.handleInput();
+
+        hudOverlay.updateHUD(financialService.getBalance());
 
         viewPort.apply();
 

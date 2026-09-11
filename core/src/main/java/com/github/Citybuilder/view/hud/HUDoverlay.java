@@ -1,8 +1,10 @@
 package com.github.citybuilder.view.hud;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.graphics.Color;
@@ -19,34 +21,50 @@ public class HUDoverlay {
 
     private final Stage stage;
 
+    private Label balanceLabel;
+
     public HUDoverlay(BuildManager buildManager) {
 
         // font texture
-        final BitmapFont font = new BitmapFont();
-        final TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = font;
-        style.fontColor = Color.WHITE;
+        final BitmapFont tilesFont = new BitmapFont();
+        final TextButton.TextButtonStyle tilesButtonStyle = new TextButton.TextButtonStyle();
+        tilesButtonStyle.font = tilesFont;
+        tilesButtonStyle.fontColor = Color.WHITE;
 
+        final BitmapFont balanceFont = new BitmapFont();
+        final TextField.TextFieldStyle balanceTextStyle = new TextField.TextFieldStyle();
+        balanceTextStyle.font = balanceFont;
+        balanceTextStyle.fontColor = Color.GOLD;
+
+        final Label.LabelStyle balanceLabelStyle = new Label.LabelStyle(balanceFont, Color.GOLD);
+        
         // textures
         final Pixmap toolbarPixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         toolbarPixmap.setColor(Color.GRAY);
         toolbarPixmap.fill();
-        style.up = new TextureRegionDrawable(new TextureRegion(new Texture(toolbarPixmap)));
+        tilesButtonStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(toolbarPixmap)));
         final TextureRegionDrawable toolbarBackground = new TextureRegionDrawable(new TextureRegion(new Texture(toolbarPixmap)));
 
         // ACTUAL STAGE //
         this.stage = new Stage(new ScreenViewport()); //independent from the map viewport
 
-        /* root table: fake table that fills the entire screen, only for aligning the other hud tables in a layout */
-        final Table rootTable = new Table();
-        rootTable.setFillParent(true);
-        rootTable.bottom();
-        stage.addActor(rootTable);
+        final Table topTable = new Table();
+        topTable.setFillParent(true);
+        topTable.top().right();
+
+        final Table bottomTable = new Table();
+        bottomTable.setFillParent(true);
+        bottomTable.bottom();
+
+        final Table infoPanel = new Table();
+        infoPanel.setBackground(toolbarBackground);
 
         final Table toolbar = new Table();
         toolbar.setBackground(toolbarBackground);
 
-        final TextButton grassButton = new TextButton("Grass", style);
+
+        // toolbar buttons
+        final TextButton grassButton = new TextButton("Grass\n" + TileType.GRASS.getPrice() + "$", tilesButtonStyle);
         grassButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -54,7 +72,7 @@ public class HUDoverlay {
             }
         });
 
-        TextButton dirtButton = new TextButton("Dirt", style);
+        final TextButton dirtButton = new TextButton("Dirt\n" + TileType.DIRT.getPrice() + "$", tilesButtonStyle);
         dirtButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -62,7 +80,7 @@ public class HUDoverlay {
             }
         });
 
-        TextButton waterButton = new TextButton("Water", style);
+        final TextButton waterButton = new TextButton("Water\n" + TileType.WATER.getPrice() + "$", tilesButtonStyle);
         waterButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -70,7 +88,7 @@ public class HUDoverlay {
             }
         });
 
-        TextButton roadButton = new TextButton("Road", style);
+        final TextButton roadButton = new TextButton("Road\n" + TileType.ROAD.getPrice() + "$", tilesButtonStyle);
         roadButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -78,14 +96,25 @@ public class HUDoverlay {
             }
         });
 
+        // infopanel buttons
+         this.balanceLabel = new Label("BALANCE", balanceLabelStyle);
+
         toolbar.add(grassButton).pad(8);
         toolbar.add(dirtButton).pad(8);
         toolbar.add(waterButton).pad(8);
         toolbar.add(roadButton).pad(8);  
 
-        rootTable.add(toolbar);
+        infoPanel.add(balanceLabel);
 
-        stage.addActor(rootTable);
+        topTable.add(infoPanel);
+        bottomTable.add(toolbar);
+
+        stage.addActor(topTable);
+        stage.addActor(bottomTable);
+    }
+
+    public void updateHUD(long balance) {
+        this.balanceLabel.setText(Long.toString(balance) + "$");
     }
 
     public void render() {

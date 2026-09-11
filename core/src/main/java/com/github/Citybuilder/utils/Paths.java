@@ -5,7 +5,7 @@ public enum Paths {
     BUILDING_RULES("gameRules/notValidTileTypesCoupling.yaml"),
     GAME_RULES("gameRules/gameRules.yaml");
 
-    final String path;
+    private final String path;
 
     private Paths(String path) {
         this.path = path;
