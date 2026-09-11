@@ -24,6 +24,8 @@ public class Launcher extends ApplicationAdapter {
     private final static long CAMERA_WIDTH = 800;
     private final static long CAMERA_HEIGHT = 600;
 
+    private final static long TILE_SIZE = 32;
+
     private OrthographicCamera camera;
     private ShapeRenderer shapeRenderer;
     private WorldMap map;
@@ -35,12 +37,13 @@ public class Launcher extends ApplicationAdapter {
     private InputMultiplexer multiplexer;
     private UpdateEngine updateEngine;
     private  FinancialService financialService;
-    
+
     public Launcher() {}
     
     @Override
     public void create() {
 
+        // rules loading
         RuleLoader.loadRules();
 
         //tickables
@@ -48,25 +51,37 @@ public class Launcher extends ApplicationAdapter {
         this.financialService = new FinancialService(RuleLoader.RULES.getStartingBalance());
         this.updateEngine.register(financialService);
 
+        // map
+        this.map = new WorldMap(WORLD_WIDTH, WORLD_HEIGHT);
+
+        // renderer
+        this.shapeRenderer = new ShapeRenderer();
+
+        this.mapRenderer = new MapRenderer(map);
+
+        // building system
+        this.buildManager = new BuildManager(map, financialService);
+
+        // hud
+        this.hudOverlay = new HUDoverlay(buildManager);
+
+        // camera
         this.camera = new OrthographicCamera();
         this.viewPort = new FillViewport(CAMERA_WIDTH, CAMERA_HEIGHT, camera);
 
-        this.shapeRenderer = new ShapeRenderer();
+        centerCameraOnMap();
 
-        this.map = new WorldMap(WORLD_WIDTH, WORLD_HEIGHT);
-
-        this.buildManager = new BuildManager(map, financialService);
-
-        this.mapRenderer = new MapRenderer(map);
+        // input
+        this.multiplexer = new InputMultiplexer();
         this.inputEngine = new InputEngine(camera, viewPort, buildManager);
         Gdx.input.setInputProcessor(inputEngine);
 
-        this.hudOverlay = new HUDoverlay(buildManager);
-        this.multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(hudOverlay.getStage()  );
+        multiplexer.addProcessor(hudOverlay.getStage());
         multiplexer.addProcessor(inputEngine);
 
-        Gdx.input.setInputProcessor(multiplexer);    
+        Gdx.input.setInputProcessor(multiplexer);  
+
+
     }
 
     @Override
@@ -89,12 +104,24 @@ public class Launcher extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        this.viewPort.update(width, height, true); 
-        this.hudOverlay.resize(width, height); // updates toolbar position
+        this.viewPort.update(width, height, false); 
+
+        camera.update();
+
+        if (hudOverlay != null) {
+            hudOverlay.resize(width, height);
+        }
     }
     @Override
     public void dispose() {
         shapeRenderer.dispose();
     }
 
+    private void centerCameraOnMap() {
+        float mapWidthPixels = WORLD_WIDTH * TILE_SIZE;   
+        float mapHeightPixels = WORLD_HEIGHT * TILE_SIZE; 
+
+        camera.position.set(mapWidthPixels / 2f, mapHeightPixels / 2f, 0);
+        camera.update();
+}
 }
