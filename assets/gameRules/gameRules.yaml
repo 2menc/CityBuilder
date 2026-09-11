@@ -3,5 +3,5 @@ tickInterval: 1.0
 gameSpeed: 1.0  #multiplier
 
 # finance
-finance_ticksPerCycle: 20  #ticks for one day
+finance_ticksPerCycle: 50  #ticks for one day
 startingBalance: 10000

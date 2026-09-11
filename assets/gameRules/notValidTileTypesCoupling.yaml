@@ -2,15 +2,22 @@
 # alreadyPresentTile:
 #   -tiles that you can not build on top of the present one
 
-  ROAD:
-    - WATER 
-  DIRT: []  #no restrictions
-  WATER:
-    - SELVATIC_GRASS
-    - GRASS
-    - DIRT
-    - ROAD
-  SELVATIC_GRASS:
-    - WATER
-  GRASS:
-    - WATER
+ROAD:
+  - WATER
+  - CONCRETE 
+DIRT: []  #no restrictions
+WATER:
+  - SELVATIC_GRASS
+  - GRASS
+  - DIRT
+  - ROAD
+  - CONCRETE
+SELVATIC_GRASS:
+  - WATER
+GRASS:
+  - WATER
+SAND: []
+CONCRETE:
+  - WATER
+WOOD: []
+  
