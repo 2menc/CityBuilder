@@ -1,4 +1,4 @@
-package com.github.Citybuilder.map;
+package com.github.Citybuilder.model.map;
 
 public enum TileType {
 

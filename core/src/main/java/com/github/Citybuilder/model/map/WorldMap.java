@@ -1,4 +1,4 @@
-package com.github.Citybuilder.map;
+package com.github.Citybuilder.model.map;
 
 import java.util.ArrayList;
 import java.util.List;

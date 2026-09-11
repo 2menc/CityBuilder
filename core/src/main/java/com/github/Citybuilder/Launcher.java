@@ -7,7 +7,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.Citybuilder.map.*;
+import com.github.Citybuilder.model.map.*;
+import com.github.Citybuilder.view.*;
 import com.github.Citybuilder.engine.*;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
