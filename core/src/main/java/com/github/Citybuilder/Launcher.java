@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.Citybuilder.model.map.*;
-import com.github.Citybuilder.view.*;
-import com.github.Citybuilder.engine.*;
+import com.github.citybuilder.model.map.*;
+import com.github.citybuilder.view.*;
+import com.github.citybuilder.engine.*;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Launcher extends ApplicationAdapter {
@@ -26,7 +26,10 @@ public class Launcher extends ApplicationAdapter {
     private MapRenderer mapRenderer;
     private Viewport viewPort;
     private InputEngine inputEngine; 
+    private BuildManager buildManager;
 
+    public Launcher() {}
+    
     @Override
     public void create() {
         this.camera = new OrthographicCamera();
@@ -36,8 +39,10 @@ public class Launcher extends ApplicationAdapter {
 
         this.map = new WorldMap(WORLD_WIDTH, WORLD_HEIGHT);
 
+        this.buildManager = new BuildManager(map);
+
         this.mapRenderer = new MapRenderer(map);
-        this.inputEngine = new InputEngine(camera, viewPort);
+        this.inputEngine = new InputEngine(camera, viewPort, buildManager);
         Gdx.input.setInputProcessor(inputEngine);
     }
 

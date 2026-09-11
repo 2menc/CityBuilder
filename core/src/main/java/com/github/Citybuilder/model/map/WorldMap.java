@@ -3,7 +3,7 @@ package com.github.citybuilder.model.map;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.Citybuilder.utils.math.*;
+import com.github.citybuilder.utils.math.*;
 
 public class WorldMap {
 

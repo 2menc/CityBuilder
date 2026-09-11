@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import com.github.Citybuilder.model.map.*;
+import com.github.citybuilder.model.map.*;
 
 public class MapRenderer {
 
@@ -29,9 +29,10 @@ public class MapRenderer {
                 switch (tile.getType()) {
                     case GRASS -> shapeRenderer.setColor(Color.OLIVE);
                     case DIRT  -> shapeRenderer.setColor(Color.BROWN);
-                    case ROAD  -> shapeRenderer.setColor(Color.GRAY);
                     case WATER -> shapeRenderer.setColor(Color.CYAN);                    
                     
+                    case ROAD  -> shapeRenderer.setColor(Color.GRAY);
+
                     default -> shapeRenderer.setColor(Color.PURPLE);
                 }
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.citybuilder.model.map.TileType;
 
 public class InputEngine extends InputAdapter{
 
@@ -23,11 +24,11 @@ public class InputEngine extends InputAdapter{
     private int hoverY = -1;
     
 
-    public InputEngine(OrthographicCamera camera, Viewport viewport) {
+    public InputEngine(OrthographicCamera camera, Viewport viewport, BuildManager buildManager) {
         this.camera = camera;
         this.viewport = viewport;
 
-        this.buildManager = new BuildManager();
+        this.buildManager = buildManager;
     }
 
     public void handleInput() {
@@ -57,7 +58,7 @@ public class InputEngine extends InputAdapter{
         hoverY = (int) Math.floor(mouseWorldPos.y / TILE_SIZE);
 
         if(Gdx.input.isTouched()) {
-            buildManager.buildAt(hoverX, hoverY);
+            buildManager.buildAt(hoverX, hoverY, TileType.ROAD);
         }
     }
 
