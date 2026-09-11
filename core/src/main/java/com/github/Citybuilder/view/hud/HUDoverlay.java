@@ -89,6 +89,7 @@ public class HUDoverlay {
     }
 
     public void render() {
+        stage.getViewport().apply();
         stage.act();
         stage.draw();
     }
@@ -99,5 +100,9 @@ public class HUDoverlay {
 
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+    }
+
+    public void dispose() {
+        stage.dispose();
     }
 }
