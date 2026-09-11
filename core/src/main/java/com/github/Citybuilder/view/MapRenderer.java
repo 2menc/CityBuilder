@@ -1,4 +1,4 @@
-package com.github.Citybuilder.view;
+package com.github.citybuilder.view;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;

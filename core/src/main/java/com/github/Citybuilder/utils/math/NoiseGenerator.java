@@ -1,4 +1,4 @@
-package com.github.Citybuilder.utils.math;
+package com.github.citybuilder.utils.math;
 
 import java.util.Random;
 
