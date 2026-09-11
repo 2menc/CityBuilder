@@ -26,15 +26,7 @@ public class MapRenderer {
             for (int j = 0; j < this.map.getHeight(); j++) {
                 final var tile = map.getTile(i, j);
 
-                switch (tile.getType()) {
-                    case GRASS -> shapeRenderer.setColor(Color.OLIVE);
-                    case DIRT  -> shapeRenderer.setColor(Color.BROWN);
-                    case WATER -> shapeRenderer.setColor(Color.CYAN);                    
-                    
-                    case ROAD  -> shapeRenderer.setColor(Color.GRAY);
-
-                    default -> shapeRenderer.setColor(Color.PURPLE);
-                }
+                shapeRenderer.setColor(tile.getType().getColor());
 
                 shapeRenderer.rect(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }

@@ -85,20 +85,6 @@ public class WorldMap {
     public long getHeight() {
         return this.height;
     }
-
-    public void printToConsole() {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                
-                if (getTile(i, j).getType() == TileType.GRASS) {
-                    System.out.print("#");
-                } else if (getTile(i, j).getType() == TileType.ROAD) {
-                    System.out.print(0);
-                }
-            }
-        System.out.println("\n");
-       }
-    }
     
     public long getNumberOfTileTypes(TileType tile) {
 

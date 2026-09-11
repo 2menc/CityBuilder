@@ -6,8 +6,11 @@
     - WATER 
   DIRT: []  #no restrictions
   WATER:
+    - SELVATIC_GRASS
     - GRASS
     - DIRT
     - ROAD
+  SELVATIC_GRASS:
+    - WATER
   GRASS:
     - WATER

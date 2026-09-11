@@ -1,18 +1,23 @@
 package com.github.citybuilder.model.map;
 
+import com.badlogic.gdx.graphics.Color;
+
 public enum TileType {
 
-    GRASS(10, 0),
-    DIRT(5, 0),
-    ROAD(50, 3),
-    WATER(25, 0);
+    SELVATIC_GRASS(12, 0, Color.FOREST),
+    GRASS(6, 1, Color.OLIVE),
+    DIRT(5, 0, Color.BROWN),
+    ROAD(50, 3, Color.GRAY),
+    WATER(25, 0, Color.CYAN);
 
     private final long price;
     private final long pricePerWeek;
+    private final Color color;
 
-    private TileType(long price, long pricePerWeek) {
+    private TileType(long price, long pricePerWeek, Color color) {
         this.price = price;
         this.pricePerWeek = pricePerWeek;
+        this.color = color;
     } 
 
     public long getPrice() {
@@ -21,6 +26,10 @@ public enum TileType {
 
     public long getPricePerWeek() {
         return this.pricePerWeek;
+    }
+
+    public Color getColor() {
+        return this.color;
     }
 
     public static TileType getTileTypeFromFloat(double elevation, double riverIntensity) {
@@ -33,7 +42,22 @@ public enum TileType {
             return TileType.DIRT;
         } 
         
-        return TileType.GRASS;
+        return TileType.SELVATIC_GRASS;
     } 
 
+    public String getFormattedName() {
+
+        String[] words = this.name().split("_");
+        StringBuilder formatted = new StringBuilder();
+
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                formatted.append(word.substring(0, 1).toUpperCase())
+                        .append(word.substring(1).toLowerCase())
+                        .append(" ");
+            }
+        }
+        
+        return formatted.toString().trim();
+    }
 }

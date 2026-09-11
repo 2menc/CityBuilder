@@ -1,5 +1,6 @@
 package com.github.citybuilder.view.hud;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -7,12 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.citybuilder.engine.BuildManager;
 import com.github.citybuilder.model.map.TileType;
@@ -64,46 +68,32 @@ public class HUDoverlay {
 
 
         // toolbar buttons
-        final TextButton grassButton = new TextButton("Grass\n" + TileType.GRASS.getPrice() + "$", tilesButtonStyle);
-        grassButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                buildManager.setSelectedTileType(TileType.GRASS);
-            }
-        });
+        final List<TextButton> tilesButtonsList = new ArrayList<>();
 
-        final TextButton dirtButton = new TextButton("Dirt\n" + TileType.DIRT.getPrice() + "$", tilesButtonStyle);
-        dirtButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                buildManager.setSelectedTileType(TileType.DIRT);
-            }
-        });
+        for(var type : TileType.values()) {
+            
+            String buttonText = type.getFormattedName() + "\n" +
+                                "cost: " + type.getPrice() + " $\n" +
+                                "expenses: " + type.getPricePerWeek() + " $/w";
+                                
+            TextButton button = new TextButton(buttonText, tilesButtonStyle);
 
-        final TextButton waterButton = new TextButton("Water\n" + TileType.WATER.getPrice() + "$", tilesButtonStyle);
-        waterButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                buildManager.setSelectedTileType(TileType.WATER);
-            }
-        });
+            button.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    buildManager.setSelectedTileType(type);
+                }
+            });
 
-        final TextButton roadButton = new TextButton("Road\n" + TileType.ROAD.getPrice() + "$", tilesButtonStyle);
-        roadButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                buildManager.setSelectedTileType(TileType.ROAD);
-            }
-        });
-
+            toolbar.add(button).pad(10).minWidth(120);
+        }
+        
         // infopanel buttons
-         this.balanceLabel = new Label("BALANCE", balanceLabelStyle);
+        this.balanceLabel = new Label("BALANCE", balanceLabelStyle);
 
-        toolbar.add(grassButton).pad(8);
-        toolbar.add(dirtButton).pad(8);
-        toolbar.add(waterButton).pad(8);
-        toolbar.add(roadButton).pad(8);  
-
+        for(var b: tilesButtonsList) {
+            toolbar.add(b);
+        }
         infoPanel.add(balanceLabel);
 
         topTable.add(infoPanel);
