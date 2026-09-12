@@ -84,8 +84,6 @@ public class Launcher extends ApplicationAdapter {
         multiplexer.addProcessor(inputEngine);
 
         Gdx.input.setInputProcessor(multiplexer);  
-
-
     }
 
     @Override
