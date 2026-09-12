@@ -24,7 +24,7 @@ public class NoiseGenerator {
     }
 
     /**
-     * Genera rumore con ottave (fBm)
+     * generates noise (fBm)
      * @param scale Frequenza (es. 0.03 per mappe grandi)
      * @param octaves Numero di livelli di dettaglio (es. 4)
      * @return Valore approssimativo tra 0.0 e 1.0
@@ -38,18 +38,18 @@ public class NoiseGenerator {
         for (int i = 0; i < octaves; i++) {
             total += smoothNoise(x * frequency, y * frequency, 0) * amplitude;
             maxValue += amplitude;
-            amplitude *= 0.5; // Persistenza
-            frequency *= 2.0; // Lacunarità
+            amplitude *= 0.5; // persistency
+            frequency *= 2.0; // Lacunarity
         }
 
-        // Normalizza tra 0.0 e 1.0
+        // normalizes betweem 0.0 and 1.0
         return (total / maxValue + 1.0) / 2.0;
     }
 
     public double smoothNoise(double x, double y, double z) {
         x += this.seed;
         y += this.seed;
-        z += this.seed; // CORRETTO: ora z usa il seed
+        z += this.seed; 
 
         int X = (int) Math.floor(x) & 255;
         int Y = (int) Math.floor(y) & 255;
