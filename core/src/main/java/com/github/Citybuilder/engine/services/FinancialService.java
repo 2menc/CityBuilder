@@ -56,6 +56,9 @@ public class FinancialService implements Tickable {
     public void addWeeklyExpense(long pricePerWeek) {
         this.expensesPerCycle += pricePerWeek;
     }
+    public void removeWeeklyExpense(long pricePerWeek) {
+        this.expensesPerCycle -= pricePerWeek;
+    }
     
     public void addWeeklyIncome(long incomePerWeek) {
         this.incomePerCycle += incomePerWeek;

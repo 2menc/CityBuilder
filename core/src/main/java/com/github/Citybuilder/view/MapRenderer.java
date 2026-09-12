@@ -75,9 +75,21 @@ public class MapRenderer {
         }
 
         // tiles outlining
-        final Color outlineColor = financialService.canAfford(buildManager.getSelecTileType().getPrice()) 
-            && ConstructionRules.canBuild(map.getTileType(hoverX, hoverY), buildManager.getSelecTileType()) 
-            ? Color.GREEN : Color.RED;
+        Color outlineColor = new Color();
+        
+        if(financialService.canAfford(buildManager.getSelecTileType().getPrice()) 
+            && ConstructionRules.canBuild(map.getTileType(hoverX, hoverY), buildManager.getSelecTileType())
+        ) {
+            outlineColor = Color.GREEN;
+        } else if(! (financialService.canAfford(buildManager.getSelecTileType().getPrice()) 
+            && ConstructionRules.canBuild(map.getTileType(hoverX, hoverY), buildManager.getSelecTileType()))
+        ) {
+            outlineColor = Color.RED;
+        } 
+
+        if(buildManager.isBulldozerActive()) {
+            outlineColor = Color.ORANGE;
+        }
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 

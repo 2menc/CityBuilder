@@ -6,11 +6,11 @@ package com.github.citybuilder.model.map;
 public enum TileType {
 
     SELVATIC_GRASS(6, 0),
-    GRASS(6, 0),
+    GRASS(6, 1),
     DIRT(5, 0),
     SAND(3, 0),
-    ROAD(50, 4),
-    CONCRETE(18, 2),
+    ROAD(50, 8),
+    CONCRETE(18, 3),
     WOOD(10, 6),
     WATER(15, 0);
 

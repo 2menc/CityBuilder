@@ -63,7 +63,7 @@ public class InputEngine extends InputAdapter{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
-            buildManager.buildAt(hoverX, hoverY);
+            buildManager.interactAt(hoverX, hoverY);
             return true;
         }
         return false;
@@ -72,7 +72,7 @@ public class InputEngine extends InputAdapter{
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         // places selected tile dragging
-        buildManager.buildAt(hoverX, hoverY);
+        buildManager.interactAt(hoverX, hoverY);
         return true;
     }
     

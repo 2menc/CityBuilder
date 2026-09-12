@@ -38,7 +38,9 @@ public class HUDoverlay {
     final TextButton pauseButton;
     final TextButton x1Button;
     final TextButton x3Button;
-    final TextButton x5Button;     
+    final TextButton x5Button;    
+    
+    final TextButton bullDozerButton;
 
     public HUDoverlay(BuildManager buildManager) {
 
@@ -99,6 +101,8 @@ public class HUDoverlay {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     buildManager.setSelectedTileType(type);
+
+                    toggleButtonOut(bullDozerButton, HUDButtonsColors.BULLDOZER);
                 }
             });
 
@@ -110,18 +114,27 @@ public class HUDoverlay {
         this.expendesLabel = new Label("TAXES", expendesLabelStyle);
         this.incomeLabel = new Label("INCOME", incomeLabelStyle);
         this.pauseButton = new TextButton("| | / I>", tilesButtonStyle);
+        this.toggleButtonOut(pauseButton, HUDButtonsColors.GAME_SPEED);
         this.x1Button = new TextButton("x1", tilesButtonStyle);
+        this.toggleButtonOut(x1Button, HUDButtonsColors.GAME_SPEED);
         this.x3Button = new TextButton("x3", tilesButtonStyle);
-        this.x5Button = new TextButton("x5", tilesButtonStyle);     
+        this.toggleButtonOut(x3Button, HUDButtonsColors.GAME_SPEED);
+        this.x5Button = new TextButton("x5", tilesButtonStyle);   
+        this.toggleButtonOut(x5Button, HUDButtonsColors.GAME_SPEED);  
+        this.bullDozerButton = new TextButton("Bulldozer", tilesButtonStyle);
+        this.toggleButtonOut(bullDozerButton, HUDButtonsColors.BULLDOZER);
 
         for(var b: tilesButtonsList) {
             toolbar.add(b);
         }
 
-        infoPanel.add(pauseButton).pad(5);
-        infoPanel.add(x1Button).pad(5);
-        infoPanel.add(x3Button).pad(5);
-        infoPanel.add(x5Button).pad(5);      
+        infoPanel.add(pauseButton).pad(8);
+        infoPanel.add(x1Button).pad(8);
+        infoPanel.add(x3Button).pad(8);
+        infoPanel.add(x5Button).pad(8);
+
+        infoPanel.add(bullDozerButton).center().expandX();
+
         infoPanel.add(incomeLabel).right().expandX();
         infoPanel.add(expendesLabel).pad(8);
         infoPanel.add(balanceLabel).pad(8);
@@ -147,7 +160,6 @@ public class HUDoverlay {
 
             this.incomeLabel.setText(Long.toString(income) + " $/w");
             this.expendesLabel.setText(Long.toString(expenses) + " $/w");
-
         }
     }
 
@@ -173,5 +185,37 @@ public class HUDoverlay {
     public void ifRequestedTox1(ChangeListener cl) {this.x1Button.addListener(cl);}
     public void ifRequestedTox3(ChangeListener cl) {this.x3Button.addListener(cl);}
     public void ifRequestedTox5(ChangeListener cl) {this.x5Button.addListener(cl);}
+    public void ifRequestedBullDozer(ChangeListener cl) {this.bullDozerButton.addListener(cl);}
+
+
+    public void toggleButtonIn(TextButton button, HUDButtonsColors buttonType) { 
+
+        button.getLabel().setColor(buttonType.getIn());    
+    }
+
+    public void toggleButtonOut(TextButton button, HUDButtonsColors buttonType) { 
+    
+        button.getLabel().setColor(buttonType.getOut());    
+    }
+
+    public TextButton getPauseButton() {
+        return pauseButton;
+    }
+
+    public TextButton getX1Button() {
+        return x1Button;
+    }
+
+    public TextButton getX3Button() {
+        return x3Button;
+    }
+
+    public TextButton getX5Button() {
+        return x5Button;
+    }
+
+    public TextButton getBullDozerButton() {
+        return bullDozerButton;
+    }
 
 }

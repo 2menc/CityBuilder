@@ -12,26 +12,16 @@ public class WorldMap {
     private final long height;
 
     private final byte[][] mapGrid;
+    private final byte[][] initialMapGrid;
 
     public WorldMap(long width, long height) {
         this.width = width;
         this.height = height;
 
-        double scale = 0.03;
-
-
-        final NoiseGenerator elevationNoise = new NoiseGenerator();
-
-        this.mapGrid = new byte[(int) width][(int) height];        
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-
-                double elevation = elevationNoise.getNoise(i, j, scale, 4);
-                double riverVal = Math.abs(elevationNoise.getNoise(i, j, 0.04, -2) - 0.5);
-                
-                this.mapGrid[i][j] = (byte) TileType.getTileTypeFromFloat(elevation, riverVal).ordinal();
-            }
-        }
+        this.mapGrid = new byte[(int) width][(int) height];  
+        this.createMap();      
+        this.initialMapGrid = new byte[(int) width][(int) height];  
+        this.cloneMap();
     }
 
     /**
@@ -90,5 +80,35 @@ public class WorldMap {
         }
         
         return count;
+    }
+
+    private void createMap() {
+
+        double scale = 0.03;
+
+        final NoiseGenerator elevationNoise = new NoiseGenerator();
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+
+                double elevation = elevationNoise.getNoise(i, j, scale, 4);
+                double riverVal = Math.abs(elevationNoise.getNoise(i, j, 0.04, -2) - 0.5);
+                
+                this.mapGrid[i][j] = (byte) TileType.getTileTypeFromFloat(elevation, riverVal).ordinal();
+            }
+        }
+    }
+
+    private void cloneMap() {
+        for(int i = 0; i < this.width; i++) {
+            for(int j = 0; j < this.height; j++) {
+                this.initialMapGrid[i][j] = this.mapGrid[i][j];
+            }
+        }
+    }
+
+    public TileType getOriginalTileType(int x, int y) {
+        final int index = this.initialMapGrid[x][y];
+        return TileType.CACHED_VALUES[index];
     }
 }

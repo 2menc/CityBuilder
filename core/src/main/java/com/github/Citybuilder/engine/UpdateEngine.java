@@ -64,9 +64,9 @@ public class UpdateEngine {
         }
     }
 
-    public void setGameSpeed(float multiplier) {
+    public void setGameSpeed(int multiplier) {
 
-        RuleLoader.RULES.setGameSpeed(multiplier);
+        RuleLoader.RULES.setGameSpeed(multiplier);        
     }
 
     private void initializeButtonListeners() {
@@ -79,7 +79,6 @@ public class UpdateEngine {
                 } else {
                     RuleLoader.RULES.setGameSpeed(0F);
                 }
-
             }
         });
         hud.ifRequestedTox1(new ChangeListener() {
@@ -100,6 +99,6 @@ public class UpdateEngine {
                 RuleLoader.RULES.setGameSpeed(5F);
             }
         });
-    }
+    }    
 
 }
