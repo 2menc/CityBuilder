@@ -1,8 +1,9 @@
 package com.github.citybuilder.model.map;
 
-
+/**
+ * An enum representing different types of tiles in the game.
+ */
 public enum TileType {
-
 
     SELVATIC_GRASS(6, 0),
     GRASS(6, 0),

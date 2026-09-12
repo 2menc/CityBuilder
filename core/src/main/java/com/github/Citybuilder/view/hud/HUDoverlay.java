@@ -21,6 +21,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.citybuilder.engine.BuildManager;
 import com.github.citybuilder.model.map.TileType;
 
+/**
+ * a class that represents the Heads-Up Display overlay for the game.
+ * It displays information about the player's resources and provides controls for the game.
+ */
 public class HUDoverlay {
 
     private final Stage stage;
@@ -129,6 +133,12 @@ public class HUDoverlay {
         stage.addActor(bottomTable);
     }
 
+    /**
+     * Updates the HUD overlay with the current balance, income, and expenses.
+     * @param balance
+     * @param income
+     * @param expenses
+     */
     public void updateHUD(long balance, long income, long expenses) {
 
         if(this.lastKnownBalance != balance) {

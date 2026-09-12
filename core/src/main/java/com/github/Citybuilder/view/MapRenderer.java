@@ -14,6 +14,9 @@ import com.github.citybuilder.engine.services.FinancialService;
 import com.github.citybuilder.model.map.*;
 import com.github.citybuilder.rules.ConstructionRules;
 
+/**
+ * A class that renders the game map.
+ */
 public class MapRenderer {
 
     /** size (in pixels) per tile */

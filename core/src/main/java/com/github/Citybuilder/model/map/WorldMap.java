@@ -3,6 +3,9 @@ package com.github.citybuilder.model.map;
 import com.github.citybuilder.rules.ConstructionRules;
 import com.github.citybuilder.utils.math.*;
 
+/**
+ * A class that models the game world map.
+ */
 public class WorldMap {
 
     private final long width;

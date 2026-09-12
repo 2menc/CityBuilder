@@ -5,6 +5,9 @@ import java.util.*;
 import com.github.citybuilder.model.map.TileType;
 import com.github.citybuilder.utils.RuleLoader;
 
+/**
+ * A class that contains the rules for building structures on the game map.
+ */
 public class ConstructionRules {
 
     private static final Map<TileType, Set<TileType>> notValidBuildMap = RuleLoader.getNotValidBuildMap();

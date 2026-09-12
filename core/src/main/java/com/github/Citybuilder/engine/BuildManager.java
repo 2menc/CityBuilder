@@ -5,6 +5,9 @@ import com.github.citybuilder.model.map.TileType;
 import com.github.citybuilder.model.map.WorldMap;
 import com.github.citybuilder.rules.ConstructionRules;
 
+/**
+ * A class that manages the building of structures on the game map.
+ */
 public class BuildManager {
 
     private final WorldMap map;

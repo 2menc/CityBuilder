@@ -2,6 +2,9 @@ package com.github.citybuilder.utils.math;
 
 import java.util.Random;
 
+/**
+ * A class that generates Perlin noise.
+ */
 public class NoiseGenerator {
     private final double seed;
     private final int[] p = new int[512];

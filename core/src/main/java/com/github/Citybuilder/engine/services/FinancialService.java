@@ -3,6 +3,9 @@ package com.github.citybuilder.engine.services;
 import com.github.citybuilder.utils.RuleLoader;
 import com.github.citybuilder.utils.Tickable;
 
+/**
+ * A class that manages the financial aspects of the game.
+ */
 public class FinancialService implements Tickable {
 
     private long balance;

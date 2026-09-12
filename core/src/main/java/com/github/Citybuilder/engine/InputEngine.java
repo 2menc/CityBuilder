@@ -8,6 +8,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+/**
+ * A class that handles input events for the game.
+ */
 public class InputEngine extends InputAdapter{
 
     private static final int TILE_SIZE = 32;
