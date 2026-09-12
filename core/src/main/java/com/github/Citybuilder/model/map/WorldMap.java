@@ -19,11 +19,7 @@ public class WorldMap {
 
         final NoiseGenerator elevationNoise = new NoiseGenerator();
 
-        //! DEBUG
-        System.out.println("building map...");
-
-        this.mapGrid = new byte[(int) width][(int) height];
-        
+        this.mapGrid = new byte[(int) width][(int) height];        
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
 
@@ -33,9 +29,6 @@ public class WorldMap {
                 this.mapGrid[i][j] = (byte) TileType.getTileTypeFromFloat(elevation, riverVal).ordinal();
             }
         }
-
-        //! DEBUG
-        System.out.println("done");
     }
 
     /**
