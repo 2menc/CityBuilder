@@ -1,5 +1,8 @@
 package com.github.citybuilder.rules;
 
+/**
+ * dao class for game rules
+ */
 public class GameRules {
 
     // time
@@ -7,6 +10,8 @@ public class GameRules {
     private float gameSpeed;
     private int finance_ticksPerCycle;
     private long startingBalance;
+    private long mapWidth;
+    private long mapHeight;
 
     public GameRules() {}
 
@@ -21,5 +26,11 @@ public class GameRules {
 
     public long getStartingBalance() {return startingBalance;}
     public void setStartingBalance(long startingBalance) {this.startingBalance = startingBalance;}
+
+    public long getMapWidth() {return mapWidth;}
+    public void setMapWidth(long mapWidth) {this.mapWidth = mapWidth;}
+
+    public long getMapHeight() {return mapHeight;}
+    public void setMapHeight(long mapHeight) {this.mapHeight = mapHeight;}
 
 }

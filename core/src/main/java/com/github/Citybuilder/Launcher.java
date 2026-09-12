@@ -18,9 +18,6 @@ import com.github.citybuilder.engine.services.FinancialService;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Launcher extends ApplicationAdapter {
 
-    private final static long WORLD_WIDTH = 500;
-    private final static long WORLD_HEIGHT = 500;
-
     private final static long CAMERA_WIDTH = 800;
     private final static long CAMERA_HEIGHT = 600;
 
@@ -47,7 +44,7 @@ public class Launcher extends ApplicationAdapter {
         RuleLoader.loadRules();
 
         // map
-        this.map = new WorldMap(WORLD_WIDTH, WORLD_HEIGHT);
+        this.map = new WorldMap(RuleLoader.RULES.getMapWidth(), RuleLoader.RULES.getMapHeight());
 
 
         // finance
@@ -121,8 +118,8 @@ public class Launcher extends ApplicationAdapter {
     }
 
     private void centerCameraOnMap() {
-        float mapWidthPixels = WORLD_WIDTH * TILE_SIZE;   
-        float mapHeightPixels = WORLD_HEIGHT * TILE_SIZE; 
+        float mapWidthPixels = RuleLoader.RULES.getMapWidth() * TILE_SIZE;   
+        float mapHeightPixels = RuleLoader.RULES.getMapHeight() * TILE_SIZE; 
 
         camera.position.set(mapWidthPixels / 2f, mapHeightPixels / 2f, 0);
         camera.update();

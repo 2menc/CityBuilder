@@ -23,6 +23,9 @@ public class WorldMap {
 
         this.mapGrid = new ArrayList<>();
 
+        //! DEBUG
+        System.out.println("building map...");
+
         for (int i = 0; i < width; i++) {
             final List<Tile> row = new ArrayList<>();
             for (int j = 0; j < height; j++) {
@@ -35,6 +38,8 @@ public class WorldMap {
             this.mapGrid.add(row);
         }
 
+        //! DEBUG
+        System.out.println("done");
     }
 
     /**

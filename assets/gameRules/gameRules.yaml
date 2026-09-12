@@ -1,6 +1,11 @@
 
+# time
 tickInterval: 1.0
 gameSpeed: 1.0  #multiplier
+
+# map
+mapWidth: 5000
+mapHeight: 5000
 
 # finance
 finance_ticksPerCycle: 50  #ticks for one day
