@@ -49,22 +49,25 @@ public class Launcher extends ApplicationAdapter {
         // map
         this.map = new WorldMap(WORLD_WIDTH, WORLD_HEIGHT);
 
-        // hud
-        this.hudOverlay = new HUDoverlay(buildManager);
 
-        //tickables
-        this.updateEngine = new UpdateEngine(this.hudOverlay);
+        // finance
         this.financialService = new FinancialService(RuleLoader.RULES.getStartingBalance(), map);
-        this.updateEngine.register(financialService);
-
-        // renderer
-        this.shapeRenderer = new ShapeRenderer();
-
-        this.mapRenderer = new MapRenderer(map);
 
         // building system
         this.buildManager = new BuildManager(map, financialService);
 
+        // hud
+        this.hudOverlay = new HUDoverlay(buildManager);
+
+        // updater
+        this.updateEngine = new UpdateEngine(this.hudOverlay);
+
+        // tickables
+        this.updateEngine.register(financialService);
+
+        // renderer
+        this.shapeRenderer = new ShapeRenderer();
+        this.mapRenderer = new MapRenderer(map);
 
         // camera
         this.camera = new OrthographicCamera();
@@ -100,7 +103,7 @@ public class Launcher extends ApplicationAdapter {
 
         viewPort.apply();
 
-        mapRenderer.render(camera, shapeRenderer, inputEngine.getHoverX(), inputEngine.getHoverY());
+        mapRenderer.render(camera, shapeRenderer, inputEngine.getHoverX(), inputEngine.getHoverY(), financialService, buildManager);
         hudOverlay.render();
     }
 
