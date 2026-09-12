@@ -40,6 +40,11 @@ public class WorldMap {
      * @return the Tile
      */
     public TileType getTileType(int x, int y) {
+
+        if (!isValid(x, y)) {
+            return TileType.SELVATIC_GRASS; // default tile
+        }
+
         final int index = this.mapGrid[x][y];
         return TileType.CACHED_VALUES[index];
     }
@@ -50,6 +55,8 @@ public class WorldMap {
      * @param tileType .
      */
     public void setTileType(int x, int y, TileType tileType) {
+
+        if (!isValid(x, y)) {return;}
 
         if(ConstructionRules.canBuild(this.getTileType(x, y), tileType)) {
             this.mapGrid[x][y] = (byte) tileType.ordinal();
