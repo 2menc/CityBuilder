@@ -25,6 +25,8 @@ public class HUDoverlay {
 
     private final Stage stage;
 
+    private long lastKnownBalance;
+
     private final Label balanceLabel;
     private final Label expendesLabel;
     private final Label incomeLabel;
@@ -35,6 +37,8 @@ public class HUDoverlay {
     final TextButton x5Button;     
 
     public HUDoverlay(BuildManager buildManager) {
+
+        this.lastKnownBalance = -1;
 
         // font texture
         final BitmapFont tilesFont = new BitmapFont();
@@ -126,9 +130,15 @@ public class HUDoverlay {
     }
 
     public void updateHUD(long balance, long income, long expenses) {
-        this.balanceLabel.setText(Long.toString(balance) + "$");
-        this.incomeLabel.setText(Long.toString(income) + " $/w");
-        this.expendesLabel.setText(Long.toString(expenses) + " $/w");
+
+        if(this.lastKnownBalance != balance) {
+            this.balanceLabel.setText(Long.toString(balance) + "$");
+            this.lastKnownBalance = balance;
+
+            this.incomeLabel.setText(Long.toString(income) + " $/w");
+            this.expendesLabel.setText(Long.toString(expenses) + " $/w");
+
+        }
     }
 
     public void render() {
