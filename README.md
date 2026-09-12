@@ -88,4 +88,3 @@ This project aims to evolve into a full city-builder experience with a strong fo
 ## 📌 Status
 
 The game is currently under development and will be expanded with more mechanics, content, and gameplay systems over time.
-```
