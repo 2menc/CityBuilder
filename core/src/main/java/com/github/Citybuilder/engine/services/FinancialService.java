@@ -30,13 +30,15 @@ public class FinancialService implements Tickable {
     @Override
     public void onTick(long currentTick) {
 
+        this.updateExpensesAndIncomePerCycle();
+
         if(currentTick % ticksPerCycle == 0) {
             final long signedAmount = incomePerCycle - expensesPerCycle;
             this.balance += signedAmount;
         }
 
         if(currentTick % 7 == 0) {    // a week just passed
-            this.decreseBalance(calculateTaxesPerWeek());
+            this.decreseBalance(this.expensesPerCycle);
         }
     }
 
@@ -57,15 +59,17 @@ public class FinancialService implements Tickable {
     }
 
     
-    private long calculateTaxesPerWeek() {
+    private void updateExpensesAndIncomePerCycle() {
 
-        long totalAmount = 0;
+        long expenses = 0;
         
         for(TileType t: TileType.values()) {
-            totalAmount += map.getNumberOfTileTypes(t) * t.getPricePerWeek();
+            expenses += map.getNumberOfTileTypes(t) * t.getPricePerWeek();
         }
 
-        return totalAmount;
+        // TODO income updating
+
+        this.expensesPerCycle = expenses;
     }
 
     

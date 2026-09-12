@@ -3,8 +3,11 @@ package com.github.citybuilder.engine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.github.citybuilder.utils.RuleLoader;
 import com.github.citybuilder.utils.Tickable;
+import com.github.citybuilder.view.hud.HUDoverlay;
 
 /**
  * service that manages all {@link Tickable} implementations
@@ -19,18 +22,18 @@ public class UpdateEngine {
     /** time for a single tick*/
     private float tickInterval;
 
-    /** spped multiplier */
-    private float gameSpeed;
-
     private float timeAccumulator;
+    private final HUDoverlay hud;
 
-    public UpdateEngine() {
+    public UpdateEngine(HUDoverlay hud) {
         this.currentTick = 0;
         this.timeAccumulator = 0f;
         this.tickInterval = RuleLoader.RULES.getTickInterval();
-        this.gameSpeed = RuleLoader.RULES.getGameSpeed();
+        this.hud = hud;
 
         this.tickables = new ArrayList<>();
+
+        this.initializeButtonListeners();
     }
 
     /**
@@ -43,11 +46,11 @@ public class UpdateEngine {
 
     public void update(float deltaTime) {
 
-        if(this.gameSpeed <= 0) {
+        if(RuleLoader.RULES.getGameSpeed() <= 0) {
             return;
         }
         
-        this.timeAccumulator += (deltaTime * this.gameSpeed);
+        this.timeAccumulator += (deltaTime * RuleLoader.RULES.getGameSpeed());
 
         while(this.timeAccumulator >= this.tickInterval) {  // checks if a tick is passed
 
@@ -59,6 +62,44 @@ public class UpdateEngine {
                 t.onTick(this.currentTick);
             }
         }
+    }
+
+    public void setGameSpeed(float multiplier) {
+
+        RuleLoader.RULES.setGameSpeed(multiplier);
+    }
+
+    private void initializeButtonListeners() {
+
+        hud.ifRequestedToTogglePauseGame(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(RuleLoader.RULES.getGameSpeed() <= 0F) {
+                    RuleLoader.RULES.setGameSpeed(1F);
+                } else {
+                    RuleLoader.RULES.setGameSpeed(0F);
+                }
+
+            }
+        });
+        hud.ifRequestedTox1(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                RuleLoader.RULES.setGameSpeed(1F);
+            }
+        });
+        hud.ifRequestedTox3(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                RuleLoader.RULES.setGameSpeed(3F);
+            }
+        });
+        hud.ifRequestedTox5(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                RuleLoader.RULES.setGameSpeed(5F);
+            }
+        });
     }
 
 }

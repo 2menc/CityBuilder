@@ -25,7 +25,14 @@ public class HUDoverlay {
 
     private final Stage stage;
 
-    private Label balanceLabel;
+    private final Label balanceLabel;
+    private final Label expendesLabel;
+    private final Label incomeLabel;
+
+    final TextButton pauseButton;
+    final TextButton x1Button;
+    final TextButton x3Button;
+    final TextButton x5Button;     
 
     public HUDoverlay(BuildManager buildManager) {
 
@@ -41,10 +48,12 @@ public class HUDoverlay {
         balanceTextStyle.fontColor = Color.GOLD;
 
         final Label.LabelStyle balanceLabelStyle = new Label.LabelStyle(balanceFont, Color.GOLD);
+        final Label.LabelStyle expendesLabelStyle = new Label.LabelStyle(balanceFont, Color.CORAL);
+        final Label.LabelStyle incomeLabelStyle = new Label.LabelStyle(balanceFont, Color.FOREST);
         
         // textures
         final Pixmap toolbarPixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        toolbarPixmap.setColor(Color.GRAY);
+        toolbarPixmap.setColor(Color.DARK_GRAY);
         toolbarPixmap.fill();
         tilesButtonStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(toolbarPixmap)));
         final TextureRegionDrawable toolbarBackground = new TextureRegionDrawable(new TextureRegion(new Texture(toolbarPixmap)));
@@ -54,7 +63,7 @@ public class HUDoverlay {
 
         final Table topTable = new Table();
         topTable.setFillParent(true);
-        topTable.top().right();
+        topTable.top();
 
         final Table bottomTable = new Table();
         bottomTable.setFillParent(true);
@@ -90,21 +99,36 @@ public class HUDoverlay {
         
         // infopanel buttons
         this.balanceLabel = new Label("BALANCE", balanceLabelStyle);
+        this.expendesLabel = new Label("TAXES", expendesLabelStyle);
+        this.incomeLabel = new Label("INCOME", incomeLabelStyle);
+        this.pauseButton = new TextButton("| | / I>", tilesButtonStyle);
+        this.x1Button = new TextButton("x1", tilesButtonStyle);
+        this.x3Button = new TextButton("x3", tilesButtonStyle);
+        this.x5Button = new TextButton("x5", tilesButtonStyle);     
 
         for(var b: tilesButtonsList) {
             toolbar.add(b);
         }
-        infoPanel.add(balanceLabel);
 
-        topTable.add(infoPanel);
+        infoPanel.add(pauseButton).pad(5);
+        infoPanel.add(x1Button).pad(5);
+        infoPanel.add(x3Button).pad(5);
+        infoPanel.add(x5Button).pad(5);      
+        infoPanel.add(incomeLabel).right().expandX();
+        infoPanel.add(expendesLabel).pad(8);
+        infoPanel.add(balanceLabel).pad(8);
+
+        topTable.add(infoPanel).expandX().fillX();
         bottomTable.add(toolbar);
 
         stage.addActor(topTable);
         stage.addActor(bottomTable);
     }
 
-    public void updateHUD(long balance) {
+    public void updateHUD(long balance, long income, long expenses) {
         this.balanceLabel.setText(Long.toString(balance) + "$");
+        this.incomeLabel.setText(Long.toString(income) + " $/w");
+        this.expendesLabel.setText(Long.toString(expenses) + " $/w");
     }
 
     public void render() {
@@ -124,4 +148,10 @@ public class HUDoverlay {
     public void dispose() {
         stage.dispose();
     }
+
+    public void ifRequestedToTogglePauseGame(ChangeListener cl) {this.pauseButton.addListener(cl);}
+    public void ifRequestedTox1(ChangeListener cl) {this.x1Button.addListener(cl);}
+    public void ifRequestedTox3(ChangeListener cl) {this.x3Button.addListener(cl);}
+    public void ifRequestedTox5(ChangeListener cl) {this.x5Button.addListener(cl);}
+
 }
