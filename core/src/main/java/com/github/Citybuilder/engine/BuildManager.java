@@ -39,4 +39,6 @@ public class BuildManager {
     public void setSelectedTileType(TileType tile) {
         this.selectedTileType = tile;
     }
+
+    public TileType getSelecTileType() {return this.selectedTileType;}
 }

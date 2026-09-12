@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
+import com.github.citybuilder.engine.BuildManager;
+import com.github.citybuilder.engine.services.FinancialService;
 import com.github.citybuilder.model.map.*;
+import com.github.citybuilder.rules.ConstructionRules;
 
 public class MapRenderer {
 
@@ -32,7 +35,7 @@ public class MapRenderer {
         }
     }
 
-    public void render(OrthographicCamera camera, ShapeRenderer shapeRenderer, int hoverX, int hoverY) {
+    public void render(OrthographicCamera camera, ShapeRenderer shapeRenderer, int hoverX, int hoverY, FinancialService financialService, BuildManager buildManager) {
         
         batch.setProjectionMatrix(camera.combined);
 
@@ -51,7 +54,7 @@ public class MapRenderer {
             int startY = Math.max(0, (int) ((camera.position.y - halfViewportHeight) / TILE_SIZE));
             int endY = (int) Math.min(map.getHeight(), (int) ((camera.position.y + halfViewportHeight) / TILE_SIZE) + 2);
 
-            // 3. only draw visible tiles
+            // only draw visible tiles
             for (int x = startX; x < endX; x++) {
                 for (int y = startY; y < endY; y++) {
                     TileType type = map.getTileType(x, y);
@@ -67,6 +70,22 @@ public class MapRenderer {
                 batch.end();
             }
         }
+
+        // tiles outlining
+        final Color outlineColor = financialService.canAfford(buildManager.getSelecTileType().getPrice()) 
+            && ConstructionRules.canBuild(map.getTileType(hoverX, hoverY), buildManager.getSelecTileType()) 
+            ? Color.GREEN : Color.RED;
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.setColor(outlineColor);
+
+        shapeRenderer.rect(hoverX * TILE_SIZE, hoverY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+
+        shapeRenderer.end();
+
+
     }
 }
 
