@@ -3,6 +3,7 @@ package com.github.citybuilder.model.map;
 
 public enum TileType {
 
+
     SELVATIC_GRASS(6, 0),
     GRASS(6, 0),
     DIRT(5, 0),
@@ -11,6 +12,8 @@ public enum TileType {
     CONCRETE(18, 2),
     WOOD(10, 6),
     WATER(15, 0);
+
+    public final static TileType[] CACHED_VALUES = values();
 
     private final long price;
     private final long pricePerWeek;
@@ -68,4 +71,5 @@ public enum TileType {
         
         return formatted.toString().trim();
     }
+
 }

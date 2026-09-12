@@ -48,7 +48,7 @@ public class Launcher extends ApplicationAdapter {
 
 
         // finance
-        this.financialService = new FinancialService(RuleLoader.RULES.getStartingBalance(), map);
+        this.financialService = new FinancialService(RuleLoader.RULES.getStartingBalance());
 
         // building system
         this.buildManager = new BuildManager(map, financialService);

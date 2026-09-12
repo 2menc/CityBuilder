@@ -1,13 +1,9 @@
 package com.github.citybuilder.engine.services;
 
-import com.github.citybuilder.model.map.TileType;
-import com.github.citybuilder.model.map.WorldMap;
 import com.github.citybuilder.utils.RuleLoader;
 import com.github.citybuilder.utils.Tickable;
 
 public class FinancialService implements Tickable {
-
-    private final WorldMap map;
 
     private long balance;
     private long expensesPerCycle;
@@ -16,10 +12,8 @@ public class FinancialService implements Tickable {
     /** tells how many tick have to clock for a cycle */
     private final int ticksPerCycle;
     
-    public FinancialService(long startingBalance, WorldMap map) {
+    public FinancialService(long startingBalance) {
         this.balance = startingBalance;
-
-        this.map = map;
 
         this.expensesPerCycle = 0;
         this.incomePerCycle = 0;
@@ -29,8 +23,6 @@ public class FinancialService implements Tickable {
 
     @Override
     public void onTick(long currentTick) {
-
-        this.updateExpensesAndIncomePerCycle();
 
         if(currentTick % ticksPerCycle == 0) {
             final long signedAmount = incomePerCycle - expensesPerCycle;
@@ -58,20 +50,13 @@ public class FinancialService implements Tickable {
         this.balance += amount;
     }
 
-    
-    private void updateExpensesAndIncomePerCycle() {
-
-        long expenses = 0;
-        
-        for(TileType t: TileType.values()) {
-            expenses += map.getNumberOfTileTypes(t) * t.getPricePerWeek();
-        }
-
-        // TODO income updating
-
-        this.expensesPerCycle = expenses;
+    public void addWeeklyExpense(long pricePerWeek) {
+        this.expensesPerCycle += pricePerWeek;
     }
-
+    
+    public void addWeeklyIncome(long incomePerWeek) {
+        this.incomePerCycle += incomePerWeek;
+    }
     
     public long getBalance() {
         return this.balance;

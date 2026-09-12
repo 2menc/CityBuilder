@@ -1,8 +1,5 @@
 package com.github.citybuilder.model.map;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.citybuilder.rules.ConstructionRules;
 import com.github.citybuilder.utils.math.*;
 
@@ -11,7 +8,7 @@ public class WorldMap {
     private final long width;
     private final long height;
 
-    private final List<List<Tile>> mapGrid;
+    private final byte[][] mapGrid;
 
     public WorldMap(long width, long height) {
         this.width = width;
@@ -19,23 +16,22 @@ public class WorldMap {
 
         double scale = 0.03;
 
-        final NoiseGenerator elevationNoise = new NoiseGenerator();
 
-        this.mapGrid = new ArrayList<>();
+        final NoiseGenerator elevationNoise = new NoiseGenerator();
 
         //! DEBUG
         System.out.println("building map...");
 
+        this.mapGrid = new byte[(int) width][(int) height];
+        
         for (int i = 0; i < width; i++) {
-            final List<Tile> row = new ArrayList<>();
             for (int j = 0; j < height; j++) {
 
                 double elevation = elevationNoise.getNoise(i, j, scale, 4);
                 double riverVal = Math.abs(elevationNoise.getNoise(i, j, 0.04, -2) - 0.5);
                 
-                row.add(new Tile(i, j, TileType.getTileTypeFromFloat(elevation, riverVal)));
+                this.mapGrid[i][j] = (byte) TileType.getTileTypeFromFloat(elevation, riverVal).ordinal();
             }
-            this.mapGrid.add(row);
         }
 
         //! DEBUG
@@ -57,17 +53,9 @@ public class WorldMap {
      * @param position .
      * @return the Tile
      */
-    public Tile getTile(int x, int y) {
-        return this.mapGrid.get(x).get(y);
-    }
-
-    /**
-     * gets the Tile in that position
-     * @param position .
-     * @return the Tile
-     */
     public TileType getTileType(int x, int y) {
-        return this.mapGrid.get(x).get(y).getType();
+        final int index = this.mapGrid[x][y];
+        return TileType.CACHED_VALUES[index];
     }
 
     /**
@@ -78,8 +66,7 @@ public class WorldMap {
     public void setTileType(int x, int y, TileType tileType) {
 
         if(ConstructionRules.canBuild(this.getTileType(x, y), tileType)) {
-            final var tileToSet = new Tile(x, y, tileType);
-            this.mapGrid.get(x).set(y, tileToSet);
+            this.mapGrid[x][y] = (byte) tileType.ordinal();
         }
     }
 
@@ -95,9 +82,12 @@ public class WorldMap {
 
         long count = 0;
 
-        for(var list: this.mapGrid) {
-            for(var t: list) {
-                if(t.getType().equals(tile)) {
+        for(int i = 0; i < this.width; i++) {
+            for(int j = 0; j < this.height; j++) {
+
+                final int index = this.mapGrid[i][j];
+
+                if(TileType.values()[index].equals(tile)) {
                     count++;
                 }
             }

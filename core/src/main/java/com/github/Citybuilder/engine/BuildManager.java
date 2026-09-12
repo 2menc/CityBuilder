@@ -32,6 +32,7 @@ public class BuildManager {
                 && ConstructionRules.canBuild(map.getTileType(x, y), selectedTileType)) {
 
             financialService.decreseBalance(this.selectedTileType.getPrice());
+            financialService.addWeeklyExpense(this.selectedTileType.getPricePerWeek());
             map.setTileType(x, y, this.selectedTileType);
         }
     }
