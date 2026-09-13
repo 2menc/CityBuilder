@@ -32,8 +32,7 @@ public class FinancialService implements Tickable {
     public void onTick(long currentTick) {
 
         if(currentTick % ticksPerCycle == 0) {
-            final long signedAmount = incomePerCycle - expensesPerCycle;
-            this.balance += signedAmount;
+            // everyday
         }
 
         if(currentTick % ticksPerWeek == 0) {    // a week just passed
