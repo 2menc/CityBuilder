@@ -1,16 +1,11 @@
 package com.github.citybuilder.view.hud;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -19,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.citybuilder.engine.BuildManager;
-import com.github.citybuilder.model.map.TileType;
+import com.github.citybuilder.engine.services.FinancialService;
 
 /**
  * a class that represents the Heads-Up Display overlay for the game.
@@ -29,22 +24,12 @@ public class HUDoverlay {
 
     private final Stage stage;
 
-    private long lastKnownBalance;
+    private final InfoBar infoBar;
+    private final ToolBar toolBar;
 
-    private final Label balanceLabel;
-    private final Label expendesLabel;
-    private final Label incomeLabel;
-
-    final TextButton pauseButton;
-    final TextButton x1Button;
-    final TextButton x3Button;
-    final TextButton x5Button;    
-    
-    final TextButton bullDozerButton;
+    private TextButton bulldozerButton;
 
     public HUDoverlay(BuildManager buildManager) {
-
-        this.lastKnownBalance = -1;
 
         // font texture
         final BitmapFont tilesFont = new BitmapFont();
@@ -69,6 +54,9 @@ public class HUDoverlay {
         final TextureRegionDrawable toolbarBackground = new TextureRegionDrawable(new TextureRegion(new Texture(toolbarPixmap)));
 
         // ACTUAL STAGE //
+
+        this.bulldozerButton = new TextButton("Bulldozer", tilesButtonStyle);
+
         this.stage = new Stage(new ScreenViewport()); //independent from the map viewport
 
         final Table topTable = new Table();
@@ -79,68 +67,18 @@ public class HUDoverlay {
         bottomTable.setFillParent(true);
         bottomTable.bottom();
 
-        final Table infoPanel = new Table();
-        infoPanel.setBackground(toolbarBackground);
+        this.infoBar = new InfoBar(
+            this, balanceLabelStyle, 
+            expendesLabelStyle, incomeLabelStyle, 
+            toolbarBackground, tilesButtonStyle, 
+            buildManager, this.bulldozerButton);
+        this.toolBar = new ToolBar(
+            this, tilesButtonStyle, 
+            toolbarBackground, buildManager,
+             bulldozerButton);
 
-        final Table toolbar = new Table();
-        toolbar.setBackground(toolbarBackground);
-
-
-        // toolbar buttons
-        final List<TextButton> tilesButtonsList = new ArrayList<>();
-
-        for(var type : TileType.values()) {
-            
-            String buttonText = type.getFormattedName() + "\n" +
-                                "cost: " + type.getPrice() + " $\n" +
-                                "expenses: " + type.getPricePerWeek() + " $/w";
-                                
-            TextButton button = new TextButton(buttonText, tilesButtonStyle);
-
-            button.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    buildManager.setSelectedTileType(type);
-
-                    toggleButtonOut(bullDozerButton, HUDButtonsColors.BULLDOZER);
-                }
-            });
-
-            toolbar.add(button).pad(10).minWidth(120);
-        }
-        
-        // infopanel buttons
-        this.balanceLabel = new Label("BALANCE", balanceLabelStyle);
-        this.expendesLabel = new Label("TAXES", expendesLabelStyle);
-        this.incomeLabel = new Label("INCOME", incomeLabelStyle);
-        this.pauseButton = new TextButton("| | / I>", tilesButtonStyle);
-        this.toggleButtonOut(pauseButton, HUDButtonsColors.GAME_SPEED);
-        this.x1Button = new TextButton("x1", tilesButtonStyle);
-        this.toggleButtonOut(x1Button, HUDButtonsColors.GAME_SPEED);
-        this.x3Button = new TextButton("x3", tilesButtonStyle);
-        this.toggleButtonOut(x3Button, HUDButtonsColors.GAME_SPEED);
-        this.x5Button = new TextButton("x5", tilesButtonStyle);   
-        this.toggleButtonOut(x5Button, HUDButtonsColors.GAME_SPEED);  
-        this.bullDozerButton = new TextButton("Bulldozer", tilesButtonStyle);
-        this.toggleButtonOut(bullDozerButton, HUDButtonsColors.BULLDOZER);
-
-        for(var b: tilesButtonsList) {
-            toolbar.add(b);
-        }
-
-        infoPanel.add(pauseButton).pad(8);
-        infoPanel.add(x1Button).pad(8);
-        infoPanel.add(x3Button).pad(8);
-        infoPanel.add(x5Button).pad(8);
-
-        infoPanel.add(bullDozerButton).center().expandX();
-
-        infoPanel.add(incomeLabel).right().expandX();
-        infoPanel.add(expendesLabel).pad(8);
-        infoPanel.add(balanceLabel).pad(8);
-
-        topTable.add(infoPanel).expandX().fillX();
-        bottomTable.add(toolbar);
+        topTable.add(infoBar).expandX().fillX();
+        bottomTable.add(toolBar);
 
         stage.addActor(topTable);
         stage.addActor(bottomTable);
@@ -152,14 +90,15 @@ public class HUDoverlay {
      * @param income
      * @param expenses
      */
-    public void updateHUD(long balance, long income, long expenses) {
+    public void updateHUD(FinancialService financialService) {
 
-        if(this.lastKnownBalance != balance) {
-            this.balanceLabel.setText(Long.toString(balance) + "$");
-            this.lastKnownBalance = balance;
-
-            this.incomeLabel.setText(Long.toString(income) + " $/w");
-            this.expendesLabel.setText(Long.toString(expenses) + " $/w");
+        if(financialService.getLastKnownBalance() != financialService.getBalance()) {
+            financialService.updateLastKnownBalance(financialService.getBalance());
+            
+            this.infoBar.setBalanceText(financialService.getBalance(), 
+                financialService.getIncomePerCycle(), 
+                financialService.getExpensesPerCycle()
+            );
         }
     }
 
@@ -181,12 +120,6 @@ public class HUDoverlay {
         stage.dispose();
     }
 
-    public void ifRequestedToTogglePauseGame(ChangeListener cl) {this.pauseButton.addListener(cl);}
-    public void ifRequestedTox1(ChangeListener cl) {this.x1Button.addListener(cl);}
-    public void ifRequestedTox3(ChangeListener cl) {this.x3Button.addListener(cl);}
-    public void ifRequestedTox5(ChangeListener cl) {this.x5Button.addListener(cl);}
-    public void ifRequestedBullDozer(ChangeListener cl) {this.bullDozerButton.addListener(cl);}
-
 
     public void toggleButtonIn(TextButton button, HUDButtonsColors buttonType) { 
 
@@ -198,24 +131,13 @@ public class HUDoverlay {
         button.getLabel().setColor(buttonType.getOut());    
     }
 
-    public TextButton getPauseButton() {
-        return pauseButton;
+    public InfoBar getInfoBar() {
+        return infoBar;
     }
 
-    public TextButton getX1Button() {
-        return x1Button;
+    public ToolBar getToolBar() {
+        return toolBar;
     }
 
-    public TextButton getX3Button() {
-        return x3Button;
-    }
-
-    public TextButton getX5Button() {
-        return x5Button;
-    }
-
-    public TextButton getBullDozerButton() {
-        return bullDozerButton;
-    }
 
 }
