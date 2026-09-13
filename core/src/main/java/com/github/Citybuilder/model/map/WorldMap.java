@@ -118,4 +118,21 @@ public class WorldMap {
         final int index = this.initialMapGrid[x][y];
         return TileType.CACHED_VALUES[index];
     }
+
+    /**
+     * searches around the (x, y) for the specified tileToSearch
+     * @param x
+     * @param y
+     * @param tileToSearch
+     * @return true if the specified tile is in prximity of (x, y) (order: up, down, dx, sx)
+     */
+    public boolean isNearTileType(int x, int y, TileType tileToSearch) {
+
+        return (
+            getTileType(x, y-1) == tileToSearch ||
+            getTileType(x, y+1) == tileToSearch ||
+            getTileType(x+1, y) == tileToSearch ||
+            getTileType(x-1, y) == tileToSearch
+        );
+    }
 }

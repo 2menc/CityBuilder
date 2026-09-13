@@ -31,8 +31,24 @@ public class BuildManager {
             if(this.bullDozerActive) {
                 demolishAt(x, y);
             } else {
-                buildAt(x, y);
+                if(this.isAZoneSelected()) {
+                    this.buildZoneAt(x, y);
+                } else {
+                    this.buildAt(x, y);
+                }
             }
+        }
+    }
+
+    /**
+     * builds the desired zone in (x, y)
+     * @param x
+     * @param y
+     */
+    private void buildZoneAt(int x, int y) {
+        
+        if(this.map.isNearTileType(x, y, TileType.ROAD) || this.map.isNearTileType(x, y, TileType.CONCRETE)) {
+            this.buildAt(x, y);
         }
     }
 
@@ -107,4 +123,12 @@ public class BuildManager {
     }
 
     public TileType getSelecTileType() {return this.selectedTileType;}
+
+    private boolean isAZoneSelected() {
+
+        final String tile = this.selectedTileType.name();
+
+        return tile.startsWith("ZONE_");
+    }
+
 }

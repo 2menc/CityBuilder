@@ -12,13 +12,13 @@ public enum TileType {
     ROAD(50, 8),
     CONCRETE(18, 3),
     WOOD(10, 6),
-    WATER(15, 0);
+    WATER(15, 0),
 
-    /*
+
+    // zones
     ZONE_RESIDENTIAL(0, 0),
     ZONE_COMMERCIAL(0, 0),
     ZONE_INDUSTRIAL(0, 0);
-    */
 
     public final static TileType[] CACHED_VALUES = values();
 
