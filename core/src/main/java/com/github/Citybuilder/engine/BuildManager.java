@@ -1,6 +1,7 @@
 package com.github.citybuilder.engine;
 
 import com.github.citybuilder.engine.services.FinancialService;
+import com.github.citybuilder.engine.services.PopulationService;
 import com.github.citybuilder.model.map.TileType;
 import com.github.citybuilder.model.map.WorldMap;
 import com.github.citybuilder.rules.ConstructionRules;
@@ -13,13 +14,15 @@ public class BuildManager {
 
     private final WorldMap map;
     private final FinancialService financialService;
+    private final PopulationService populationService;
 
     private TileType selectedTileType;
     private boolean bullDozerActive;
 
-    public BuildManager(WorldMap map, FinancialService financialService) {
+    public BuildManager(WorldMap map, FinancialService financialService, PopulationService populationService) {
         this.map = map;
         this.financialService = financialService;
+        this.populationService = populationService;
 
         this.selectedTileType = TileType.ROAD; //default
     }
@@ -47,9 +50,18 @@ public class BuildManager {
      */
     private void buildZoneAt(int x, int y) {
         
-        if(this.map.isNearTileType(x, y, TileType.ROAD) || this.map.isNearTileType(x, y, TileType.CONCRETE)) {
-            this.buildAt(x, y);
+        boolean nearRoadOrConcrete = this.map.isNearTileType(x, y, TileType.ROAD) 
+            || this.map.isNearTileType(x, y, TileType.CONCRETE);
+        boolean isRoadOrConcrete = this.map.getTileType(x, y).equals(TileType.ROAD)
+            || this.map.getTileType(x, y).equals(TileType.CONCRETE);
+
+        if (nearRoadOrConcrete && !isRoadOrConcrete) {
+            if (this.selectedTileType.equals(TileType.ZONE_RESIDENTIAL) && !TileType.isAZone(this.map.getTileType(x, y))) {
+                this.populationService.addHouse();
+                this.buildAt(x, y);
+            }
         }
+
     }
 
     /**
@@ -101,6 +113,10 @@ public class BuildManager {
         }
 
         map.setTileType(x, y, map.getOriginalTileType(x, y));
+
+        if(this.selectedTileType.equals(TileType.ZONE_RESIDENTIAL)) {
+            this.populationService.removeHouse();
+        }
     }
 
     public void enableBulldozer() {

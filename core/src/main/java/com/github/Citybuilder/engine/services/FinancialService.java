@@ -9,6 +9,7 @@ import com.github.citybuilder.utils.Tickable;
 public class FinancialService implements Tickable {
 
     private long lastKnownBalance = -1;
+    private long lastKnownIncome = -1;
 
     private long balance;
     private long expensesPerCycle;
@@ -17,8 +18,10 @@ public class FinancialService implements Tickable {
     /** tells how many tick have to clock for a cycle */
     private final int ticksPerCycle;
     private final int ticksPerWeek;
+
     
     public FinancialService(long startingBalance) {
+
         this.balance = startingBalance;
 
         this.expensesPerCycle = 0;
@@ -32,11 +35,13 @@ public class FinancialService implements Tickable {
     public void onTick(long currentTick) {
 
         if(currentTick % ticksPerCycle == 0) {
-            // everyday
+            ////
         }
 
         if(currentTick % ticksPerWeek == 0) {    // a week just passed
-            this.decreseBalance(this.expensesPerCycle);
+
+            this.decreseBalance(this.expensesPerCycle);            
+            this.increaseBalance(this.incomePerCycle);
         }
     }
 
@@ -59,10 +64,6 @@ public class FinancialService implements Tickable {
     public void addWeeklyExpense(long pricePerWeek) {
 
         this.expensesPerCycle += pricePerWeek;
-
-        if(this.expensesPerCycle <= 0) {
-            this.expensesPerCycle = 0;
-        }
     }
     public void removeWeeklyExpense(long pricePerWeek) {
 
@@ -74,11 +75,17 @@ public class FinancialService implements Tickable {
     }
     
     public void addWeeklyIncome(long incomePerWeek) {
+
         this.incomePerCycle += incomePerWeek;
+    }
+    public void removeWeeklyIncome(long incomePerWeek) {
+
+        this.incomePerCycle -= incomePerWeek;
 
         if(this.incomePerCycle <= 0) {
             this.incomePerCycle = 0;
         }
+
     }
     
     public long getBalance() {
@@ -115,4 +122,12 @@ public class FinancialService implements Tickable {
     public long getLastKnownBalance() {
         return  this.lastKnownBalance;
     }
+
+    public long getLastKnownIncome() {
+        return lastKnownIncome;
+    }
+    public void setLastKnownIncome(long lastKnownIncome) {
+        this.lastKnownIncome = lastKnownIncome;
+    }
+
 }

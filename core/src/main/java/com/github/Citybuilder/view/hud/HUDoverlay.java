@@ -100,9 +100,10 @@ public class HUDoverlay {
         TimeService timeService
     ) {
 
-        if(financialService.getLastKnownBalance() != financialService.getBalance()) {
-            financialService.updateLastKnownBalance(financialService.getBalance());
-            
+        if (financialService.getLastKnownBalance() != financialService.getBalance()
+            || financialService.getLastKnownIncome() != financialService.getIncomePerCycle()
+        ) {
+              
             this.infoBar.setBalanceText(financialService.getBalance(), 
                 financialService.getIncomePerCycle(), 
                 financialService.getExpensesPerCycle()

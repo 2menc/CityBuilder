@@ -17,6 +17,7 @@ import com.github.citybuilder.view.hud.HUDButtonsColors;
 import com.github.citybuilder.view.hud.HUDoverlay;
 import com.github.citybuilder.engine.*;
 import com.github.citybuilder.engine.services.FinancialService;
+import com.github.citybuilder.engine.services.PopulationService;
 import com.github.citybuilder.engine.services.TimeService;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -39,6 +40,7 @@ public class Launcher extends ApplicationAdapter {
     private UpdateEngine updateEngine;
     private FinancialService financialService;
     private TimeService timeService;
+    private PopulationService populationService;
 
     public Launcher() {}
     
@@ -51,14 +53,18 @@ public class Launcher extends ApplicationAdapter {
         // map
         this.map = new WorldMap(RuleLoader.RULES.getMapWidth(), RuleLoader.RULES.getMapHeight());
 
+        // population
+        this.populationService = new PopulationService(0);
+
         // finance
         this.financialService = new FinancialService(RuleLoader.RULES.getStartingBalance());
+        this.populationService.addFinancialService(financialService);
 
         // time
         this.timeService = new TimeService();
 
         // building system
-        this.buildManager = new BuildManager(map, financialService);
+        this.buildManager = new BuildManager(map, financialService, populationService);
 
         // hud
         this.hudOverlay = new HUDoverlay(buildManager);
@@ -70,6 +76,7 @@ public class Launcher extends ApplicationAdapter {
         // tickables
         this.updateEngine.register(financialService);
         this.updateEngine.register(timeService);
+        this.updateEngine.register(populationService);
         
         // renderer
         this.shapeRenderer = new ShapeRenderer();
