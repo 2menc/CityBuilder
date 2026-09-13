@@ -46,7 +46,7 @@ public class HUDoverlay {
         final Label.LabelStyle balanceLabelStyle = new Label.LabelStyle(balanceFont, Color.GOLD);
         final Label.LabelStyle expendesLabelStyle = new Label.LabelStyle(balanceFont, Color.CORAL);
         final Label.LabelStyle incomeLabelStyle = new Label.LabelStyle(balanceFont, Color.FOREST);
-        final Label.LabelStyle normalStyle = new Label.LabelStyle(balanceFont, Color.GRAY);
+        final Label.LabelStyle normalStyle = new Label.LabelStyle(balanceFont, Color.WHITE);
         
         // textures
         final Pixmap toolbarPixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
