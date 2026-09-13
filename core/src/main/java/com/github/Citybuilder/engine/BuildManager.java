@@ -126,9 +126,7 @@ public class BuildManager {
 
     private boolean isAZoneSelected() {
 
-        final String tile = this.selectedTileType.name();
-
-        return tile.startsWith("ZONE_");
+        return TileType.isAZone(this.selectedTileType);
     }
 
 }

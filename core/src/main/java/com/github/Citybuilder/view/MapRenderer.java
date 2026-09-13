@@ -47,6 +47,7 @@ public class MapRenderer {
         }
 
         try {
+
             // visible camera space
             float halfViewportWidth = (camera.viewportWidth * camera.zoom) / 2f;
             float halfViewportHeight = (camera.viewportHeight * camera.zoom) / 2f;
@@ -57,16 +58,27 @@ public class MapRenderer {
             int startY = Math.max(0, (int) ((camera.position.y - halfViewportHeight) / TILE_SIZE));
             int endY = (int) Math.min(map.getHeight(), (int) ((camera.position.y + halfViewportHeight) / TILE_SIZE) + 2);
 
-            // only draw visible tiles
+            // always draws both initial and new tile, to assure transparent texture rendering 
             for (int x = startX; x < endX; x++) {
                 for (int y = startY; y < endY; y++) {
-                    TileType type = map.getTileType(x, y);
-                    Texture tileTexture = textureCache.get(type);
 
-                    if (tileTexture != null) {
-                        batch.draw(tileTexture, x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                    int pixelX = x * TILE_SIZE;
+                    int pixelY = y * TILE_SIZE;
+
+                    TileType baseType = map.getOriginalTileType(x, y);
+                    TileType currentType = map.getTileType(x, y);
+
+                    Texture initialTile = textureCache.get(baseType);
+                    if (initialTile != null) {
+                        batch.draw(initialTile, pixelX, pixelY, TILE_SIZE, TILE_SIZE);
                     }
-                }
+
+                    if (currentType != baseType) {
+                        Texture overlayTile = textureCache.get(currentType);
+                        if (overlayTile != null) {
+                            batch.draw(overlayTile, pixelX, pixelY, TILE_SIZE, TILE_SIZE);
+                        }
+                    }                }
             }
         } finally {
             if (batch.isDrawing()) {
@@ -99,8 +111,6 @@ public class MapRenderer {
         shapeRenderer.rect(hoverX * TILE_SIZE, hoverY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
         shapeRenderer.end();
-
-
     }
 }
 

@@ -79,4 +79,9 @@ public enum TileType {
         return formatted.toString().trim();
     }
 
+    public static boolean isAZone(TileType selectedTileType) {
+        
+        return selectedTileType.name().startsWith("ZONE_");
+    }
+
 }
