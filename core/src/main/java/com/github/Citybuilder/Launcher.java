@@ -96,9 +96,7 @@ public class Launcher extends ApplicationAdapter {
 
         inputEngine.handleInput();
 
-        hudOverlay.updateHUD(financialService.getBalance(), financialService.getIncomePerCycle(), 
-            financialService.getExpensesPerCycle());
-
+        hudOverlay.updateHUD(this.financialService);
         viewPort.apply();
 
         mapRenderer.render(camera, shapeRenderer, inputEngine.getHoverX(), inputEngine.getHoverY(), financialService, buildManager);
@@ -131,69 +129,69 @@ public class Launcher extends ApplicationAdapter {
     private void initializeButtonListeners() {
 
         // pause
-        hudOverlay.ifRequestedToTogglePauseGame(new ChangeListener() {
+        hudOverlay.getInfoBar().ifRequestedToTogglePauseGame(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 RuleLoader.RULES.setGameSpeed(0F);
                 
-                hudOverlay.toggleButtonIn(hudOverlay.getPauseButton(), HUDButtonsColors.GAME_SPEED);
-                hudOverlay.toggleButtonOut(hudOverlay.getX1Button(), HUDButtonsColors.GAME_SPEED);
-                hudOverlay.toggleButtonOut(hudOverlay.getX3Button(), HUDButtonsColors.GAME_SPEED);
-                hudOverlay.toggleButtonOut(hudOverlay.getX5Button(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonIn(hudOverlay.getInfoBar().getPauseButton(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonOut(hudOverlay.getInfoBar().getX1Button(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonOut(hudOverlay.getInfoBar().getX3Button(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonOut(hudOverlay.getInfoBar().getX5Button(), HUDButtonsColors.GAME_SPEED);
             }
         });
 
         // x1
-        hudOverlay.ifRequestedTox1(new ChangeListener() {
+        hudOverlay.getInfoBar().ifRequestedTox1(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 RuleLoader.RULES.setGameSpeed(1F);
 
-                hudOverlay.toggleButtonOut(hudOverlay.getPauseButton(), HUDButtonsColors.GAME_SPEED);
-                hudOverlay.toggleButtonIn(hudOverlay.getX1Button(), HUDButtonsColors.GAME_SPEED);
-                hudOverlay.toggleButtonOut(hudOverlay.getX3Button(), HUDButtonsColors.GAME_SPEED);
-                hudOverlay.toggleButtonOut(hudOverlay.getX5Button(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonOut(hudOverlay.getInfoBar().getPauseButton(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonIn(hudOverlay.getInfoBar().getX1Button(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonOut(hudOverlay.getInfoBar().getX3Button(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonOut(hudOverlay.getInfoBar().getX5Button(), HUDButtonsColors.GAME_SPEED);
             }
         });
 
         // x3
-        hudOverlay.ifRequestedTox3(new ChangeListener() {
+        hudOverlay.getInfoBar().ifRequestedTox3(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 RuleLoader.RULES.setGameSpeed(3F);
 
-                hudOverlay.toggleButtonOut(hudOverlay.getPauseButton(), HUDButtonsColors.GAME_SPEED);
-                hudOverlay.toggleButtonOut(hudOverlay.getX1Button(), HUDButtonsColors.GAME_SPEED);
-                hudOverlay.toggleButtonIn(hudOverlay.getX3Button(), HUDButtonsColors.GAME_SPEED);
-                hudOverlay.toggleButtonOut(hudOverlay.getX5Button(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonOut(hudOverlay.getInfoBar().getPauseButton(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonOut(hudOverlay.getInfoBar().getX1Button(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonIn(hudOverlay.getInfoBar().getX3Button(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonOut(hudOverlay.getInfoBar().getX5Button(), HUDButtonsColors.GAME_SPEED);
             }
         });
 
         // x5
-        hudOverlay.ifRequestedTox5(new ChangeListener() {
+        hudOverlay.getInfoBar().ifRequestedTox5(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 RuleLoader.RULES.setGameSpeed(5F);
 
-                hudOverlay.toggleButtonOut(hudOverlay.getPauseButton(), HUDButtonsColors.GAME_SPEED);
-                hudOverlay.toggleButtonOut(hudOverlay.getX1Button(), HUDButtonsColors.GAME_SPEED);
-                hudOverlay.toggleButtonOut(hudOverlay.getX3Button(), HUDButtonsColors.GAME_SPEED);
-                hudOverlay.toggleButtonIn(hudOverlay.getX5Button(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonOut(hudOverlay.getInfoBar().getPauseButton(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonOut(hudOverlay.getInfoBar().getX1Button(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonOut(hudOverlay.getInfoBar().getX3Button(), HUDButtonsColors.GAME_SPEED);
+                hudOverlay.toggleButtonIn(hudOverlay.getInfoBar().getX5Button(), HUDButtonsColors.GAME_SPEED);
             }
         });
         
         // bulldozer
-        hudOverlay.ifRequestedBullDozer(new ChangeListener() {
+        hudOverlay.getInfoBar().ifRequestedBullDozer(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (buildManager.isBulldozerActive()) {
 
                     buildManager.setSelectedTileType(TileType.ROAD);
-                    hudOverlay.toggleButtonOut(hudOverlay.getBullDozerButton(), HUDButtonsColors.BULLDOZER);
+                    hudOverlay.toggleButtonOut(hudOverlay.getInfoBar().getBulldozerButton(), HUDButtonsColors.BULLDOZER);
                 } else {
 
                     buildManager.enableBulldozer();
-                    hudOverlay.toggleButtonIn(hudOverlay.getBullDozerButton(), HUDButtonsColors.BULLDOZER);
+                    hudOverlay.toggleButtonIn(hudOverlay.getInfoBar().getBulldozerButton(), HUDButtonsColors.BULLDOZER);
                 }
             }
         });

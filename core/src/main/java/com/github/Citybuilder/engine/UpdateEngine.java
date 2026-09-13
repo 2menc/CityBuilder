@@ -15,6 +15,7 @@ import com.github.citybuilder.view.hud.HUDoverlay;
  */
 public class UpdateEngine {
 
+
     private final List<Tickable> tickables;
 
     private long currentTick;
@@ -71,7 +72,7 @@ public class UpdateEngine {
 
     private void initializeButtonListeners() {
 
-        hud.ifRequestedToTogglePauseGame(new ChangeListener() {
+        hud.getInfoBar().ifRequestedToTogglePauseGame(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(RuleLoader.RULES.getGameSpeed() <= 0F) {
@@ -81,24 +82,25 @@ public class UpdateEngine {
                 }
             }
         });
-        hud.ifRequestedTox1(new ChangeListener() {
+        hud.getInfoBar().ifRequestedTox1(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 RuleLoader.RULES.setGameSpeed(1F);
             }
         });
-        hud.ifRequestedTox3(new ChangeListener() {
+        hud.getInfoBar().ifRequestedTox3(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 RuleLoader.RULES.setGameSpeed(3F);
             }
         });
-        hud.ifRequestedTox5(new ChangeListener() {
+        hud.getInfoBar().ifRequestedTox5(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 RuleLoader.RULES.setGameSpeed(5F);
             }
         });
     }    
+
 
 }

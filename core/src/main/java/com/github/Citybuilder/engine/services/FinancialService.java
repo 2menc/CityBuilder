@@ -8,6 +8,8 @@ import com.github.citybuilder.utils.Tickable;
  */
 public class FinancialService implements Tickable {
 
+    private long lastKnownBalance = -1;
+
     private long balance;
     private long expensesPerCycle;
     private long incomePerCycle;
@@ -106,4 +108,10 @@ public class FinancialService implements Tickable {
         return ticksPerCycle;
     }
 
+    public void updateLastKnownBalance(long balance) {
+        this.lastKnownBalance = balance;
+    }
+    public long getLastKnownBalance() {
+        return  this.lastKnownBalance;
+    }
 }
