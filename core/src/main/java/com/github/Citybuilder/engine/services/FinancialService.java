@@ -16,6 +16,7 @@ public class FinancialService implements Tickable {
 
     /** tells how many tick have to clock for a cycle */
     private final int ticksPerCycle;
+    private final int ticksPerWeek;
     
     public FinancialService(long startingBalance) {
         this.balance = startingBalance;
@@ -24,6 +25,7 @@ public class FinancialService implements Tickable {
         this.incomePerCycle = 0;
 
         this.ticksPerCycle = RuleLoader.RULES.getFinance_ticksPerCycle();
+        this.ticksPerWeek = ticksPerCycle * 7;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class FinancialService implements Tickable {
             this.balance += signedAmount;
         }
 
-        if(currentTick % 7 == 0) {    // a week just passed
+        if(currentTick % ticksPerWeek == 0) {    // a week just passed
             this.decreseBalance(this.expensesPerCycle);
         }
     }

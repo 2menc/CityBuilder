@@ -1,5 +1,7 @@
 package com.github.citybuilder.view.hud;
 
+import java.time.LocalDate;
+
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -20,6 +22,8 @@ public class InfoBar extends Table {
     private final TextButton x3Button;
     private final TextButton x5Button;
 
+    private final Label dateLabel;
+
     private final TextButton bulldozerButton;
 
     public InfoBar(
@@ -30,7 +34,8 @@ public class InfoBar extends Table {
         TextureRegionDrawable background, 
         TextButtonStyle tilesButtonStyle,
         BuildManager buildManager,
-        TextButton bulldozerButton
+        TextButton bulldozerButton,
+        LabelStyle normalStyle
     ) {
 
         this.setBackground(background);
@@ -49,11 +54,15 @@ public class InfoBar extends Table {
         this.bulldozerButton = bulldozerButton;
         parent.toggleButtonOut(bulldozerButton, HUDButtonsColors.BULLDOZER);
 
+        this.dateLabel = new Label("DATE", normalStyle);
+
         // dd buttons
         this.add(pauseButton).pad(8);
         this.add(x1Button).pad(8);
         this.add(x3Button).pad(8);
         this.add(x5Button).pad(8);
+
+        this.add(this.dateLabel).pad(24);
 
         this.add(bulldozerButton).center().expandX();
 
@@ -98,6 +107,19 @@ public class InfoBar extends Table {
 
     public TextButton getBulldozerButton() {
         return bulldozerButton;
+    }
+
+    public void setDate(LocalDate date) {
+        
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append(date.getDayOfMonth());
+        sb.append("/");
+        sb.append(date.getMonth());
+        sb.append("/");
+        sb.append(date.getYear());
+
+        this.dateLabel.setText(sb.toString());
     }
 
 }

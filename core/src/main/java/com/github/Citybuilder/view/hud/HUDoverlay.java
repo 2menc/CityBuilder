@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.citybuilder.engine.BuildManager;
 import com.github.citybuilder.engine.services.FinancialService;
+import com.github.citybuilder.engine.services.TimeService;
 
 /**
  * a class that represents the Heads-Up Display overlay for the game.
@@ -45,6 +46,7 @@ public class HUDoverlay {
         final Label.LabelStyle balanceLabelStyle = new Label.LabelStyle(balanceFont, Color.GOLD);
         final Label.LabelStyle expendesLabelStyle = new Label.LabelStyle(balanceFont, Color.CORAL);
         final Label.LabelStyle incomeLabelStyle = new Label.LabelStyle(balanceFont, Color.FOREST);
+        final Label.LabelStyle normalStyle = new Label.LabelStyle(balanceFont, Color.GRAY);
         
         // textures
         final Pixmap toolbarPixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
@@ -71,11 +73,14 @@ public class HUDoverlay {
             this, balanceLabelStyle, 
             expendesLabelStyle, incomeLabelStyle, 
             toolbarBackground, tilesButtonStyle, 
-            buildManager, this.bulldozerButton);
+            buildManager, this.bulldozerButton,
+            normalStyle
+        );
         this.toolBar = new ToolBar(
             this, tilesButtonStyle, 
             toolbarBackground, buildManager,
-             bulldozerButton);
+            bulldozerButton
+         );
 
         topTable.add(infoBar).expandX().fillX();
         bottomTable.add(toolBar);
@@ -90,7 +95,10 @@ public class HUDoverlay {
      * @param income
      * @param expenses
      */
-    public void updateHUD(FinancialService financialService) {
+    public void updateHUD(
+        FinancialService financialService,
+        TimeService timeService
+    ) {
 
         if(financialService.getLastKnownBalance() != financialService.getBalance()) {
             financialService.updateLastKnownBalance(financialService.getBalance());
@@ -100,6 +108,8 @@ public class HUDoverlay {
                 financialService.getExpensesPerCycle()
             );
         }
+
+        this.infoBar.setDate(timeService.getDate());
     }
 
     public void render() {

@@ -14,6 +14,12 @@ public enum TileType {
     WOOD(10, 6),
     WATER(15, 0);
 
+    /*
+    ZONE_RESIDENTIAL(0, 0),
+    ZONE_COMMERCIAL(0, 0),
+    ZONE_INDUSTRIAL(0, 0);
+    */
+
     public final static TileType[] CACHED_VALUES = values();
 
     private final long price;
