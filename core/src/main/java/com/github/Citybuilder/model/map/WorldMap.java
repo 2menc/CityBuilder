@@ -8,13 +8,13 @@ import com.github.citybuilder.utils.math.*;
  */
 public class WorldMap {
 
-    private final long width;
-    private final long height;
+    private final int width;
+    private final int height;
 
     private final byte[][] mapGrid;
     private final byte[][] initialMapGrid;
 
-    public WorldMap(long width, long height) {
+    public WorldMap(int width, int height) {
         this.width = width;
         this.height = height;
 
@@ -63,11 +63,11 @@ public class WorldMap {
         }
     }
 
-    public long getWidth() {
+    public int getWidth() {
         return this.width;
     }
 
-    public long getHeight() {
+    public int getHeight() {
         return this.height;
     }
     
@@ -135,4 +135,7 @@ public class WorldMap {
             getTileType(x-1, y) == tileToSearch
         );
     }
+
+    public byte[][] getMap() {return  this.mapGrid;}
+    public byte[][] getInitialMap() {return  this.initialMapGrid;}
 }

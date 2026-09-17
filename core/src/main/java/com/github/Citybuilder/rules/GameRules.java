@@ -5,14 +5,17 @@ package com.github.citybuilder.rules;
  */
 public class GameRules {
 
+    private final static int MILLIS_IN_A_SECOND = 1000;
+
     // time
     private float tickInterval;
     private float gameSpeed;
     private int finance_ticksPerCycle;
     private long startingBalance;
-    private long mapWidth;
-    private long mapHeight;
+    private int mapWidth;
+    private int mapHeight;
     private float populationExpansionFactor;
+    private int autoSaveTime;
 
     public GameRules() {}
 
@@ -28,13 +31,16 @@ public class GameRules {
     public long getStartingBalance() {return startingBalance;}
     public void setStartingBalance(long startingBalance) {this.startingBalance = startingBalance;}
 
-    public long getMapWidth() {return mapWidth;}
-    public void setMapWidth(long mapWidth) {this.mapWidth = mapWidth;}
+    public int getMapWidth() {return mapWidth;}
+    public void setMapWidth(int mapWidth) {this.mapWidth = mapWidth;}
 
-    public long getMapHeight() {return mapHeight;}
-    public void setMapHeight(long mapHeight) {this.mapHeight = mapHeight;}
+    public int getMapHeight() {return mapHeight;}
+    public void setMapHeight(int mapHeight) {this.mapHeight = mapHeight;}
 
     public float getPopulationExpansionFactor() {return populationExpansionFactor;}
     public void setPopulationExpansionFactor(float populationExpansionFactor) {this.populationExpansionFactor = populationExpansionFactor;}
+
+    public int getAutoSaveTime() {return autoSaveTime * MILLIS_IN_A_SECOND;}
+    public void setAutoSaveTime(int autoSaveTime) {this.autoSaveTime = autoSaveTime;}
 
 }

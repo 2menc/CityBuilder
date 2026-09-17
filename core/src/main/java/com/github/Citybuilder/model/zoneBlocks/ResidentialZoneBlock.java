@@ -8,7 +8,7 @@ import java.util.random.RandomGenerator;
 import com.github.citybuilder.engine.services.PopulationService;
 import com.github.citybuilder.model.ZoneBlock;
 import com.github.citybuilder.utils.Pair;
-import com.github.citybuilder.utils.RuleLoader;
+import com.github.citybuilder.utils.files.RuleLoader;
 import com.github.citybuilder.utils.math.StructureRandomAmountGenerator;
 
 public class ResidentialZoneBlock implements ZoneBlock {

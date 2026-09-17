@@ -11,11 +11,12 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.citybuilder.model.map.*;
-import com.github.citybuilder.utils.RuleLoader;
+import com.github.citybuilder.utils.files.RuleLoader;
 import com.github.citybuilder.view.*;
 import com.github.citybuilder.view.hud.HUDButtonsColors;
 import com.github.citybuilder.view.hud.HUDoverlay;
 import com.github.citybuilder.engine.*;
+import com.github.citybuilder.engine.services.AutoSaveService;
 import com.github.citybuilder.engine.services.FinancialService;
 import com.github.citybuilder.engine.services.PopulationService;
 import com.github.citybuilder.engine.services.TimeService;
@@ -41,6 +42,7 @@ public class Launcher extends ApplicationAdapter {
     private FinancialService financialService;
     private TimeService timeService;
     private PopulationService populationService;
+    private AutoSaveService autoSaveService;
 
     public Launcher() {}
     
@@ -97,6 +99,9 @@ public class Launcher extends ApplicationAdapter {
         multiplexer.addProcessor(inputEngine);
 
         Gdx.input.setInputProcessor(multiplexer);  
+
+        // autosav
+        this.autoSaveService = new AutoSaveService(RuleLoader.RULES, this.map, "MondoProvaSalvataggio");
     }
 
     @Override

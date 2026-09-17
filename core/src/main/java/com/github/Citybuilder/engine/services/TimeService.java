@@ -2,8 +2,8 @@ package com.github.citybuilder.engine.services;
 
 import java.time.LocalDate;
 
-import com.github.citybuilder.utils.RuleLoader;
 import com.github.citybuilder.utils.Tickable;
+import com.github.citybuilder.utils.files.RuleLoader;
 
 public class TimeService implements Tickable {
 

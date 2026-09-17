@@ -166,3 +166,6 @@ Thumbs.db
 
 # Vscode:
 .vscode
+
+# game saves
+assets/saves

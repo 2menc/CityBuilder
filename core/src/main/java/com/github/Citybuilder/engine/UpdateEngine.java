@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.github.citybuilder.utils.RuleLoader;
 import com.github.citybuilder.utils.Tickable;
+import com.github.citybuilder.utils.files.RuleLoader;
 import com.github.citybuilder.view.hud.HUDoverlay;
 
 /**

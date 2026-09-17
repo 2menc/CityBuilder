@@ -1,4 +1,4 @@
-package com.github.citybuilder.utils;
+package com.github.citybuilder.utils.files;
 
 import java.io.InputStream;
 import java.util.*;
@@ -10,6 +10,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.github.citybuilder.model.map.TileType;
 import com.github.citybuilder.rules.GameRules;
+import com.github.citybuilder.utils.Paths;
 
 /**
  * gets rules from the rules file 

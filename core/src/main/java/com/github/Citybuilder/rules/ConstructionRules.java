@@ -3,7 +3,7 @@ package com.github.citybuilder.rules;
 import java.util.*;
 
 import com.github.citybuilder.model.map.TileType;
-import com.github.citybuilder.utils.RuleLoader;
+import com.github.citybuilder.utils.files.RuleLoader;
 
 /**
  * A class that contains the rules for building structures on the game map.

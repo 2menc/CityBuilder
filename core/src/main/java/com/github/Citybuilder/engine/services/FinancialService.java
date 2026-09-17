@@ -1,7 +1,7 @@
 package com.github.citybuilder.engine.services;
 
-import com.github.citybuilder.utils.RuleLoader;
 import com.github.citybuilder.utils.Tickable;
+import com.github.citybuilder.utils.files.RuleLoader;
 
 /**
  * A class that manages the financial aspects of the game.
