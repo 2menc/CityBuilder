@@ -1,6 +1,7 @@
 package com.github.citybuilder.model.map;
 
 import com.github.citybuilder.rules.ConstructionRules;
+import com.github.citybuilder.utils.files.GameMap;
 import com.github.citybuilder.utils.math.*;
 
 /**
@@ -14,6 +15,11 @@ public class WorldMap {
     private final byte[][] mapGrid;
     private final byte[][] initialMapGrid;
 
+    /**
+     * defatul constructor
+     * @param width
+     * @param height
+     */
     public WorldMap(int width, int height) {
         this.width = width;
         this.height = height;
@@ -22,6 +28,30 @@ public class WorldMap {
         this.createMap();      
         this.initialMapGrid = new byte[(int) width][(int) height];  
         this.cloneMap();
+    }
+
+    /**
+     * game loading from save constructor
+     * @param savedMap
+     */
+    public WorldMap(GameMap savedMap) {
+        this.width = savedMap.width;
+        this.height = savedMap.height;
+
+        this.mapGrid = new byte[(int) width][(int) height];
+        this.initialMapGrid = new byte[(int) width][(int) height];
+
+        for(int y = 0; y < height; y++) {
+
+            byte[] savedRow = savedMap.mapGrid.get(y);
+            byte[] savedInitialRow = savedMap.initialMapGrid.get(y);
+
+            for(int x = 0; x < width; x++) {
+                
+                this.mapGrid[x][y] = savedRow[x];
+                this.initialMapGrid[x][y] = savedInitialRow[x];
+            }
+        }
     }
 
     /**
