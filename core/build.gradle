@@ -20,6 +20,7 @@ dependencies {
 test {
     // Tells Gradle to use the JUnit Platform runner instead of JUnit 4
     useJUnitPlatform()
+    workingDir = rootProject.file('assets').path   // così Gdx.files.internal trova i veri yaml
 
     // Optional: Shows test passes/failures clearly in the console output
     testLogging {

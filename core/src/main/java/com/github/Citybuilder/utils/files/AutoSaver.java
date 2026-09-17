@@ -35,6 +35,7 @@ public class AutoSaver {
             Gdx.app.log("AutoSaver", "game saved in: " + fileHandle.path());
         } catch (Exception e) {
             Gdx.app.error("AutoSaver", "game saving error", e);
+            
         }
     }   
 

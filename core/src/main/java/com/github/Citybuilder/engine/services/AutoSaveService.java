@@ -28,7 +28,9 @@ public class AutoSaveService {
     
         try {
            while(true) {
-                Thread.sleep(RuleLoader.RULES.getAutoSaveTime());
+
+                int delay = Math.max(RuleLoader.RULES.getAutoSaveTime(), 1000); // minimum 1 second
+                Thread.sleep(delay);
                 this.saveGame();
             }
 
