@@ -12,6 +12,7 @@ public class GameRules {
     private long startingBalance;
     private long mapWidth;
     private long mapHeight;
+    private float populationExpansionFactor;
 
     public GameRules() {}
 
@@ -32,5 +33,8 @@ public class GameRules {
 
     public long getMapHeight() {return mapHeight;}
     public void setMapHeight(long mapHeight) {this.mapHeight = mapHeight;}
+
+    public float getPopulationExpansionFactor() {return populationExpansionFactor;}
+    public void setPopulationExpansionFactor(float populationExpansionFactor) {this.populationExpansionFactor = populationExpansionFactor;}
 
 }

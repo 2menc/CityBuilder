@@ -10,3 +10,6 @@ mapHeight: 500
 # finance
 finance_ticksPerCycle: 10  #ticks for one day
 startingBalance: 10000
+
+# population
+populationExpansionFactor: 0.05 # % probability for an house to be built

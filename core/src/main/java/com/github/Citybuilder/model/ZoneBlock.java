@@ -23,4 +23,6 @@ public interface ZoneBlock{
 
     boolean isEmpty();
 
+    int getIncome();
+
 }

@@ -6,7 +6,7 @@ package com.github.citybuilder.model.map;
 public enum TileType {
 
     SELVATIC_GRASS(6, 0),
-    GRASS(6, 1),
+    GRASS(6, 0),
     DIRT(5, 0),
     SAND(3, 0),
     ROAD(50, 8),
@@ -16,9 +16,9 @@ public enum TileType {
 
 
     // zones
-    ZONE_RESIDENTIAL(0, 0),
-    ZONE_COMMERCIAL(0, 0),
-    ZONE_INDUSTRIAL(0, 0);
+    ZONE_RESIDENTIAL(8, 0),
+    ZONE_COMMERCIAL(12, 0),
+    ZONE_INDUSTRIAL(24, 0);
 
     public final static TileType[] CACHED_VALUES = values();
 

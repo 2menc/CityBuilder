@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.random.RandomGenerator;
 
+import com.github.citybuilder.engine.services.PopulationService;
 import com.github.citybuilder.model.ZoneBlock;
 import com.github.citybuilder.utils.Pair;
+import com.github.citybuilder.utils.RuleLoader;
 import com.github.citybuilder.utils.math.StructureRandomAmountGenerator;
 
 public class ResidentialZoneBlock implements ZoneBlock {
@@ -32,7 +34,7 @@ public class ResidentialZoneBlock implements ZoneBlock {
     @Override
     public void updateZone() {
 
-        if(randomGenerator.nextInt()%100 < 8) { // 8% probability of creating a new house every tick
+        if(randomGenerator.nextFloat()%100 <= RuleLoader.RULES.getPopulationExpansionFactor()) { // % probability of creating a new house every tick
             this.buildHouse();
         }
     }
@@ -106,5 +108,12 @@ public class ResidentialZoneBlock implements ZoneBlock {
 
         return this.getPeople() == 0;
     }
+
+    @Override
+    public int getIncome() {
+
+        return this.getPeople() * PopulationService.TAX_PER_CITIZEN;
+    }
+
 
 }

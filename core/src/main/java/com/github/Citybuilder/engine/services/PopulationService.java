@@ -13,6 +13,8 @@ public class PopulationService implements Tickable{
     private final List<ZoneBlock> blocksList;
     
     private long totalCitizens;
+    
+    private FinancialService financialService;
 
     public PopulationService(long totalCitizens) {
 
@@ -25,15 +27,21 @@ public class PopulationService implements Tickable{
     public void onTick(long currentTick) {
 
         long peopleList = 0;
+        long totalIncome = 0; 
 
         for(ZoneBlock zb : this.blocksList) {
             zb.updateZone();
             peopleList += zb.getPeople();
+            
+            totalIncome += zb.getIncome(); 
         }
 
-        if(peopleList != totalCitizens) {this.totalCitizens = peopleList;}
-    }
+        if(peopleList != totalCitizens) {
+            this.totalCitizens = peopleList;
+        }
 
+        this.financialService.setIncomePerCycle(totalIncome);
+    }
     /**
      * gets citizen's total taxes ($/week)
      * @return the taxes
@@ -70,5 +78,10 @@ public class PopulationService implements Tickable{
     public void registerBlock(ZoneBlock block) { 
 
         this.blocksList.add(block); 
+    }
+
+    public void addFinancialService(FinancialService financialService) {
+        
+        this.financialService = financialService;
     }
 }
