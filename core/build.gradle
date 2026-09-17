@@ -10,6 +10,20 @@ dependencies {
   if(enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
   }
+
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.11.0'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+}
+
+test {
+    // Tells Gradle to use the JUnit Platform runner instead of JUnit 4
+    useJUnitPlatform()
+
+    // Optional: Shows test passes/failures clearly in the console output
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 jar {

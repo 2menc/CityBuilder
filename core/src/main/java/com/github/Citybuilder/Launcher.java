@@ -100,7 +100,7 @@ public class Launcher extends ApplicationAdapter {
 
         Gdx.input.setInputProcessor(multiplexer);  
 
-        // autosav
+        // autosave
         this.autoSaveService = new AutoSaveService(RuleLoader.RULES, this.map, "MondoProvaSalvataggio");
     }
 

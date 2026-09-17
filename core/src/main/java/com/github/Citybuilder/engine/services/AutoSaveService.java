@@ -29,7 +29,7 @@ public class AutoSaveService {
         try {
            while(true) {
                 Thread.sleep(RuleLoader.RULES.getAutoSaveTime());
-                AutoSaver.saveGame(gameRules, map, mapName);
+                this.saveGame();
             }
 
         } catch (InterruptedException e) {
@@ -38,6 +38,9 @@ public class AutoSaveService {
         }
     }
 
+    public void saveGame() {
+        AutoSaver.saveGame(gameRules, map, mapName);
+    }
 
 
 }
