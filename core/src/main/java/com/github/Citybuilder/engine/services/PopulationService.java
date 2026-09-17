@@ -1,54 +1,74 @@
 package com.github.citybuilder.engine.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.github.citybuilder.model.ZoneBlock;
 import com.github.citybuilder.utils.Tickable;
-import com.github.citybuilder.utils.math.StructureRandomAmountGenerator;
 
 public class PopulationService implements Tickable{
 
-    public static final int TAX_PER_CITIZER = 2;
+    public static final int TAX_PER_CITIZEN = 2;
+
+    private final List<ZoneBlock> blocksList;
     
     private long totalCitizens;
 
-    private FinancialService financialService;
-
     public PopulationService(long totalCitizens) {
+
         this.totalCitizens = totalCitizens;
+
+        this.blocksList = new ArrayList<>();
     }
 
     @Override
     public void onTick(long currentTick) {
-        ////
-    }
 
-    public long getTotalCitizenTaxesAmount() {
-        return this.totalCitizens * TAX_PER_CITIZER;
-    }
+        long peopleList = 0;
 
-    public void addHouse() {
-        this.addCitizens(StructureRandomAmountGenerator.calculateCitizensInAHouse());
-    }
-    public void removeHouse() {
-        this.removeCitizens(StructureRandomAmountGenerator.calculateCitizensInAHouse());
-    }
-
-    private void addCitizens(int amount) {
-        this.totalCitizens += amount;
-    
-        this.financialService.addWeeklyIncome((long) (amount * TAX_PER_CITIZER));
-    }
-    private void removeCitizens(int amount) {
-        final long newAmount = this.totalCitizens - amount;
-
-        if(newAmount <= 0) {
-            this.totalCitizens = 0;
-        } else {
-            this.totalCitizens = newAmount;
+        for(ZoneBlock zb : this.blocksList) {
+            zb.updateZone();
+            peopleList += zb.getPeople();
         }
-        this.financialService.removeWeeklyIncome(amount * TAX_PER_CITIZER);
+
+        if(peopleList != totalCitizens) {this.totalCitizens = peopleList;}
     }
 
-    public void addFinancialService(FinancialService financialService) {
-        this.financialService = financialService;
+    /**
+     * gets citizen's total taxes ($/week)
+     * @return the taxes
+     */
+    public long getTotalCitizenTaxesAmount() {
+
+        int total = 0;
+
+        for(var block : this.blocksList) {
+
+            int people = block.getPeople();
+
+            total += people * PopulationService.TAX_PER_CITIZEN;
+        }
+    
+        return total;        
     }
 
+    public void addNewBlock(ZoneBlock block) {
+        this.blocksList.add(block);
+    }
+    public void removeBlock(ZoneBlock block) {
+        
+        for(var zb : this.blocksList) {
+            if(block == zb) {
+                final int index = this.blocksList.indexOf(block);
+                this.blocksList.remove(index);
+            }
+        }
+    }
+
+    public List<ZoneBlock> getBlocks() { return this.blocksList; }
+
+    public void registerBlock(ZoneBlock block) { 
+
+        this.blocksList.add(block); 
+    }
 }

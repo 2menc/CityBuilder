@@ -2,8 +2,10 @@ package com.github.citybuilder.engine;
 
 import com.github.citybuilder.engine.services.FinancialService;
 import com.github.citybuilder.engine.services.PopulationService;
+import com.github.citybuilder.model.ZoneBlock;
 import com.github.citybuilder.model.map.TileType;
 import com.github.citybuilder.model.map.WorldMap;
+import com.github.citybuilder.model.zoneBlocks.ResidentialZoneBlock;
 import com.github.citybuilder.rules.ConstructionRules;
 
 
@@ -15,6 +17,7 @@ public class BuildManager {
     private final WorldMap map;
     private final FinancialService financialService;
     private final PopulationService populationService;
+
 
     private TileType selectedTileType;
     private boolean bullDozerActive;
@@ -55,9 +58,35 @@ public class BuildManager {
         boolean isRoadOrConcrete = this.map.getTileType(x, y).equals(TileType.ROAD)
             || this.map.getTileType(x, y).equals(TileType.CONCRETE);
 
+
         if (nearRoadOrConcrete && !isRoadOrConcrete) {
             if (this.selectedTileType.equals(TileType.ZONE_RESIDENTIAL) && !TileType.isAZone(this.map.getTileType(x, y))) {
-                this.populationService.addHouse();
+
+                ZoneBlock targetBlock = null;
+
+                for(ZoneBlock block : this.populationService.getBlocks()) {
+
+                    // if the block already exists
+                    if(block.isAdjacentTo(x, y)) {
+                        targetBlock = block;
+                        break;
+                    }
+                }
+
+                // expand the block
+                if(targetBlock != null) {
+                    targetBlock.addTileToBlock(x, y);
+                } else { 
+                    // add a new block
+
+                    ZoneBlock newBlock = null;
+
+                    if(this.selectedTileType.equals(TileType.ZONE_RESIDENTIAL)) {newBlock = new ResidentialZoneBlock(x, y);} 
+
+                    this.populationService.registerBlock(newBlock);
+
+                }
+
                 this.buildAt(x, y);
             }
         }
@@ -114,8 +143,13 @@ public class BuildManager {
 
         map.setTileType(x, y, map.getOriginalTileType(x, y));
 
-        if(this.selectedTileType.equals(TileType.ZONE_RESIDENTIAL)) {
-            this.populationService.removeHouse();
+        ZoneBlock zb = this.getBlock(x, y);
+        if (zb != null) {
+            zb.removeTileFromBlock(x, y);
+    
+            if (zb.isEmpty()) { 
+                populationService.removeBlock(zb); 
+            }    
         }
     }
 
@@ -145,4 +179,14 @@ public class BuildManager {
         return TileType.isAZone(this.selectedTileType);
     }
 
+    private ZoneBlock getBlock(long x, long y) {
+
+        for(ZoneBlock block : this.populationService.getBlocks()) {
+
+            if(block.containsTile(x, y)) {
+                return block;                
+            }
+        }
+        return null;
+    }
 }

@@ -58,7 +58,6 @@ public class Launcher extends ApplicationAdapter {
 
         // finance
         this.financialService = new FinancialService(RuleLoader.RULES.getStartingBalance());
-        this.populationService.addFinancialService(financialService);
 
         // time
         this.timeService = new TimeService();
